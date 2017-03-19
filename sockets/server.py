@@ -23,7 +23,7 @@ class ThreadedServer(object):
         while True:
             print("dafuq am I doin here...")
             for s in read_sockets:
-                print("???")
+                print(s)
                 if s == CONNECTION_LIST[0]:
                     client, address = self.sock.accept()
                     print("Got a connection from %s" % str(address))
@@ -82,7 +82,7 @@ def broadcast_data(client, message):
             except:
                 # broken socket connection may be, chat client pressed ctrl+c for example
                 s.close()
-                CONNECTION_LIST.remove(socket)
+                CONNECTION_LIST.remove(s)
                 print(CONNECTION_LIST)
 
 
