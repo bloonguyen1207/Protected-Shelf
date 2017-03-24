@@ -1,12 +1,19 @@
 from cement.core.foundation import CementApp
 from cement.core.controller import CementBaseController, expose
+from classes.user import User
+import re
+import getpass
 
 VERSION = "0.0.1"
 
 BANNER = """Protected Shelf v%s""" % VERSION
 
+HOST = "localhost"
+PORT = 2222
+
 
 # define any hook functions here
+# Bloo: No idea wtf is this
 def my_cleanup_hook(app):
     pass
 
@@ -17,10 +24,8 @@ class BaseController(CementBaseController):
         description = "Application does amazing things!"
         arguments = [
             (['-v', '--version'], dict(action='version', version=BANNER)),
-            (['-u', '--create-user'],
-                dict(action='store', help='the notorious foo option')),
-            (['-c'],
-                dict(action='store_true', help='the big C option')),
+            # (['-c', '--create-user'],
+            #     dict(action='store', help='Create new user')),
             ]
 
     @expose(hide=True)
@@ -31,13 +36,27 @@ class BaseController(CementBaseController):
 
     # New user sign up
     @expose(help="Create new user")
-    def create(self):
-        self.app.log.info("Inside BaseController.create()")
+    def register(self):
+        self.app.log.info("Inside BaseController.register()")
+        rule = re.compile("[a-z0-9_]{4,}")
+        print("Username must be at least 4 chars, only including alphanumeric & underscore")
+        username = input("Type your name (any name you like): ").strip()
+        if rule.fullmatch(username) is not None:
+            psw = getpass.getpass("Type your password: ").strip()
+            confirm_psw = getpass.getpass("Do it again (just making sure you're not forgetting it): ").strip()
+            if psw == confirm_psw:
+                user = User(username, psw)
+                print("User successfully created.")
+                print("Type 'shelf login' to login")
+            else:
+                print("Password does not match. Try again.")
+        else:
+            print("Username invalid. Try again.")
 
     # Activate prompt
     @expose(help="Open session")
-    def open(self):
-        self.app.log.info("Inside BaseController.open()")
+    def login(self):
+        self.app.log.info("Inside BaseController.login()")
 
 
 class App(CementApp):

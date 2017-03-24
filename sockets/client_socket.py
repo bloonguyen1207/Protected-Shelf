@@ -4,8 +4,58 @@ import select
 import sys
 
 
+class ClientSocket:
+    def __init__(self, sock=None):
+        if sock is None:
+            self.sock = socket.socket(
+                socket.AF_INET, socket.SOCK_STREAM)
+        else:
+            self.sock = sock
+
+    def open_connection(self, host, port):
+        try:
+            self.sock.connect((host, port))
+            print("Connected to remote host. Start sending messages\n Type 'exit.' to disconnect.")
+            prompt()
+        except socket.error as e:
+            print("Cannot connect to host.")
+            print("Caught: %s", e)
+            print("Please try again later.")
+            sys.exit()
+
+    def close_connection(self):
+        try:
+            self.sock.close()
+        except socket.error as e:
+            print("Error closing connection: %s", e)
+
+    def in_conversation(self):
+        socket_list = [sys.stdin, self.sock]
+
+        # Get the list sockets which are readable
+        read_sockets, write_sockets, error_sockets = select.select(socket_list, [], [])
+
+        for sock in read_sockets:
+            # Incoming message from remote server
+            if sock == self.sock:
+                data = sock.recv(4096)
+                if not data:
+                    # print(data)
+                    print('\nDisconnected from chat server.')
+                    sys.exit()
+                else:
+                    # Print data
+                    sys.stdout.write(data.decode())
+                    prompt()
+            # User entered a message
+            else:
+                msg = sys.stdin.readline()
+                self.sock.send(msg.encode())
+                prompt()
+
+
 def prompt():
-    sys.stdout.write('<You> ')
+    sys.stdout.write('>> ')
     sys.stdout.flush()
 
 
@@ -19,39 +69,10 @@ if __name__ == "__main__":
     host = sys.argv[1]
     port = int(sys.argv[2])
      
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.settimeout(2)
+    s = ClientSocket()
      
     # connect to remote host
-    try:
-        s.connect((host, port))
-    except:
-        print('Unable to connect')
-        sys.exit()
-     
-    print('Connected to remote host. Start sending messages')
-    prompt()
+    s.open_connection(host, port)
      
     while 1:
-        socket_list = [sys.stdin, s]
-         
-        # Get the list sockets which are readable
-        read_sockets, write_sockets, error_sockets = select.select(socket_list , [], [])
-         
-        for sock in read_sockets:
-            # Incoming message from remote server
-            if sock == s:
-                data = sock.recv(4096)
-                if not data:
-                    print(data)
-                    print('\nDisconnected from chat server')
-                    sys.exit()
-                else:
-                    # Print data
-                    sys.stdout.write(data)
-                    prompt()
-            # User entered a message
-            else:
-                msg = sys.stdin.readline()
-                s.send(msg)
-                prompt()
+        s.in_conversation()

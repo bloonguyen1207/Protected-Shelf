@@ -1,5 +1,8 @@
 import socket
 
+# Use client_socket.py
+# Not this one
+
 
 class ClientSocket:
 
@@ -20,17 +23,6 @@ class ClientSocket:
             print(self.sock.recv(2048).decode())
             if sent != 0:
                 break
-
-    # def receive_msg(self):
-    #     chunks = []
-    #     bytes_recd = 0
-    #     while bytes_recd < 2048:
-    #         chunk = self.sock.recv(min(2048 - bytes_recd, 2048))
-    #         if chunk == b'':
-    #             raise RuntimeError("socket connection broken")
-    #         chunks.append(chunk)
-    #         bytes_recd += len(chunk)
-    #     return b''.join(chunks)
 
     def close_connection(self):
         self.sock.close()

@@ -1,6 +1,9 @@
 import select
 import socket
 
+# Use server_socket.py
+# Not this one
+
 
 CONNECTION_LIST = []
 

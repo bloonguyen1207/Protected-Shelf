@@ -6,11 +6,12 @@
 # Eli Bendersky (eliben@gmail.com)
 # This code is in hte public domain
 # -------------------------------------------------------------------------------
-# Bloo added a bit to enable messages exchanging between clients
+# Bloo added a bit to enable messages broadcasting between clients
 # Will work on this more
 # Wait for it
 # -------------------------------------------------------------------------------
 import logging
+import psycopg2
 import selectors
 import socket
 import time
@@ -45,6 +46,8 @@ class SelectorServer:
         # Keeps track of the peers currently connected. Maps socket fd to
         # peer name.
         self.current_peers = {}
+        self.conn = psycopg2.connect("dbname=shelf user=bloo")
+        self.cur = self.conn.cursor()
 
     def on_accept(self, sock, mask):
         # This is a handler for the main_socket which is now listening, so we
@@ -67,6 +70,7 @@ class SelectorServer:
         # fds to peer names - our socket fd is still open.
         peer_name = self.current_peers[conn.fileno()]
         logging.info('closing connection to {0}'.format(peer_name))
+        broadcast_data(conn, (str(peer_name) + " left.\n").encode())
         del self.current_peers[conn.fileno()]
         self.selector.unregister(conn)
         if conn in CONNECTION_LIST:
@@ -81,9 +85,12 @@ class SelectorServer:
             if data:
                 peer_name = conn.getpeername()
                 # print(peer_name)
-                logging.info('got data from {}: {!r}'.format(peer_name, data))
-                # Assume for simplicity that send won't block
-                broadcast_data(conn, (str(peer_name) + ': ' + data.decode()).encode())
+                logging.info('got data from {}: {!r}'.format(peer_name, data.decode()))
+                if data.decode() == "exit.\n":
+                    self.close_connection(conn)
+                else:
+                    # Assume for simplicity that send won't block
+                    broadcast_data(conn, (str(peer_name) + ': ' + data.decode()).encode())
             else:
                 if conn in CONNECTION_LIST:
                     CONNECTION_LIST.remove(conn)
