@@ -4,6 +4,7 @@ import select
 import sys
 
 
+# TODO: add send message function
 class ClientSocket:
     def __init__(self, sock=None):
         if sock is None:
@@ -16,10 +17,10 @@ class ClientSocket:
         try:
             self.sock.connect((host, port))
             print("Connected to remote host. Start sending messages\n Type 'exit.' to disconnect.")
-            prompt()
+            # self.prompt()
         except socket.error as e:
             print("Cannot connect to host.")
-            print("Caught: %s", e)
+            print(e)
             print("Please try again later.")
             sys.exit()
 
@@ -28,6 +29,33 @@ class ClientSocket:
             self.sock.close()
         except socket.error as e:
             print("Error closing connection: %s", e)
+
+    def send_message(self, message):
+        total_sent = 0
+        while total_sent < 4096:
+            sent = self.sock.send(message[total_sent:].encode())
+            if sent != 0:
+                break
+            return self.sock.recv(4096).decode()
+                # print(message)
+                # socket_list = [input, self.sock]
+                # read_sockets, write_sockets, error_sockets = select.select(socket_list, [], [])
+
+                # for sock in read_sockets:
+                # if self.sock:
+                #     data = self.sock.recv(4096)
+                #     if not data:
+                #         print(data)
+                #         print('\nDisconnected from server.')
+                #         sys.exit()
+                #     else:
+                #         # Print data
+                #         sys.stdout.write(data.decode())
+                # else:
+                #     try:
+                #         self.sock.send(message.encode())
+                #     except socket.error as e:
+                #         print("Caught error: %s", e)
 
     def in_conversation(self):
         socket_list = [sys.stdin, self.sock]
@@ -46,17 +74,17 @@ class ClientSocket:
                 else:
                     # Print data
                     sys.stdout.write(data.decode())
-                    prompt()
+                    self.prompt()
             # User entered a message
             else:
                 msg = sys.stdin.readline()
                 self.sock.send(msg.encode())
-                prompt()
+                self.prompt()
 
-
-def prompt():
-    sys.stdout.write('>> ')
-    sys.stdout.flush()
+    @staticmethod
+    def prompt():
+        sys.stdout.write('>> ')
+        sys.stdout.flush()
 
 
 # main function

@@ -15,6 +15,8 @@ import psycopg2
 import selectors
 import socket
 import time
+from app import data_handler
+from db import data_io
 
 HOST = 'localhost'
 PORT = 2222
@@ -24,6 +26,7 @@ logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(message)s')
 CONNECTION_LIST = []
 
 
+# TODO: parse data from string -> json -> Done
 class SelectorServer:
     def __init__(self, host, port):
         # Create the main socket that accepts incoming connections and start
@@ -45,6 +48,7 @@ class SelectorServer:
         CONNECTION_LIST.append(self.main_socket)
         # Keeps track of the peers currently connected. Maps socket fd to
         # peer name.
+        # TODO: Adapt this
         self.current_peers = {}
         self.conn = psycopg2.connect("dbname=shelf user=bloo")
         self.cur = self.conn.cursor()
@@ -81,16 +85,32 @@ class SelectorServer:
         # This is a handler for peer sockets - it's called when there's new
         # data.
         try:
-            data = conn.recv(1000)
+            data = conn.recv(4096)
             if data:
                 peer_name = conn.getpeername()
                 # print(peer_name)
                 logging.info('got data from {}: {!r}'.format(peer_name, data.decode()))
-                if data.decode() == "exit.\n":
-                    self.close_connection(conn)
-                else:
-                    # Assume for simplicity that send won't block
-                    broadcast_data(conn, (str(peer_name) + ': ' + data.decode()).encode())
+
+                # TODO: Separate different types of requests
+                json_data = data_handler.parse_json(data.decode())
+                # print(json_data['type'])
+
+                data_handler.handle(conn, json_data)
+
+                # if json_data['type'] == 1:
+                #     verification = data_io.verify_username(json_data['username'])
+                #     print(verification)
+                #     try:
+                #         print("sending bak")
+                #         conn.send("wtf".encode())
+                #     except socket.error as e:
+                #         print(e)
+
+                # if data.decode() == "exit.\n":
+                #     self.close_connection(conn)
+                # else:
+                #     # Assume for simplicity that send won't block
+                #     broadcast_data(conn, (str(peer_name) + ': ' + data.decode()).encode())
             else:
                 if conn in CONNECTION_LIST:
                     CONNECTION_LIST.remove(conn)
@@ -120,7 +140,6 @@ class SelectorServer:
                 logging.info('Num active peers = {0}'.format(
                     len(self.current_peers)))
                 last_report_time = cur_time
-                # print(self.current_peers)
 
 
 def broadcast_data(client, message):
@@ -129,11 +148,12 @@ def broadcast_data(client, message):
         if s != CONNECTION_LIST[0] and s != client:
             try:
                 s.send(message)
-            except:
+            except socket.error as e:
                 # broken socket connection may be, chat client pressed ctrl+c for example
                 if s in CONNECTION_LIST:
                     CONNECTION_LIST.remove(s)
                 s.close()
+                print("Error caught: %s", e)
 
 if __name__ == '__main__':
     logging.info('starting')
