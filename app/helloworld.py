@@ -23,6 +23,8 @@ COLORS = {
     'CRITICAL': 'red,bg_white',
 }
 
+CURRENT_USER = open('appdata/.current_user', 'r').read()
+
 
 # define any hook functions here
 # Bloo: No idea wtf is this
@@ -122,6 +124,15 @@ class BaseController(CementBaseController):
         f.write("")
         f.close()
         self.app.log.info("Logged out.")
+
+    @expose(help="Get current user")
+    def current_user(self):
+        self.app.log.info("Inside BaseController.current_user()")
+        if CURRENT_USER is "":
+            self.app.log.info("No user is currently logged in.")
+            print("Type 'shelf login' to login.")
+        else:
+            self.app.log.info(CURRENT_USER)
 
 
 class App(CementApp):
