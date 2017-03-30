@@ -17,7 +17,7 @@ class User:
     def __init__(self, name, salt, psw):
         self.name = name
         self.salt = salt
-        self.psw = bcrypt.hashpw(psw.encode(), self.salt)
+        self.psw = bcrypt.hashpw(psw.encode(), self.salt.encode()).decode()
 
 
 # def register():

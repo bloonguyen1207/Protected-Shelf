@@ -1,6 +1,5 @@
 import psycopg2
 
-
 # TODO: Build functions to add data
 
 
@@ -34,3 +33,18 @@ def register_user(data):
         return "Success"
     except psycopg2.ProgrammingError as e:
         return e
+
+
+def login_user(data):
+    conn = connect_to_db()
+    cur = conn.cursor()
+    try:
+        query = "SELECT psw FROM Trader WHERE username LIKE %s"
+        info = [data['username']]
+        cur.execute(query, info)
+        for tup in cur.fetchall():
+            return str(tup[0] == data['password'])
+    except psycopg2.ProgrammingError as e:
+        return e
+
+# hash = login_user(json.loads('{"type": 3, "username": "fibb", "password": "123456"}'))

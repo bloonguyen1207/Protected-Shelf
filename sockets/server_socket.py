@@ -48,10 +48,7 @@ class SelectorServer:
         CONNECTION_LIST.append(self.main_socket)
         # Keeps track of the peers currently connected. Maps socket fd to
         # peer name.
-        # TODO: Adapt this
         self.current_peers = {}
-        self.conn = psycopg2.connect("dbname=shelf user=bloo")
-        self.cur = self.conn.cursor()
 
     def on_accept(self, sock, mask):
         # This is a handler for the main_socket which is now listening, so we
@@ -90,7 +87,7 @@ class SelectorServer:
                 peer_name = conn.getpeername()
                 logging.info('got data from {}: {!r}'.format(peer_name, data.decode()))
 
-                # TODO: Separate different types of requests
+                # TODO: Separate different types of requests -> see data_handler.py
                 json_data = data_handler.parse_json(data.decode())
                 try:
                     conn.send(data_handler.handle(json_data).encode())

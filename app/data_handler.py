@@ -1,6 +1,4 @@
 import json
-import socket
-from sockets import server_socket
 
 from db import data_io
 
@@ -17,7 +15,12 @@ def format_username(username):
 
 def format_register_user(user):
     return '{"type": ' + str(ACTION_DICT["register"]) + ', "username": "' + user.name + \
-           '","salt": "' + str(user.salt) + '", "password": "' + str(user.psw) + '"}'
+           '","salt": "' + user.salt + '", "password": "' + user.psw + '"}'
+
+
+def format_login(user):
+    return '{"type": ' + str(ACTION_DICT["login"]) + ', "username": "' + user.name + \
+           '", "password": "' + user.psw + '"}'
 
 
 def handle(data):
@@ -26,6 +29,10 @@ def handle(data):
         if verification is None:
             return "None"
         else:
-            return data_io.verify_username(data['username'])
+            return verification
     elif data['type'] == 2:
         return data_io.register_user(data)
+    elif data['type'] == 3:
+        return data_io.login_user(data)
+
+
