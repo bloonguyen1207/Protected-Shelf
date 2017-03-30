@@ -32,11 +32,13 @@ class ClientSocket:
 
     def send_message(self, message):
         total_sent = 0
-        while total_sent < 4096:
-            sent = self.sock.send(message[total_sent:].encode())
-            if sent != 0:
-                break
-            return self.sock.recv(4096).decode()
+        while total_sent < 2048:
+            self.sock.send(message[total_sent:].encode())
+            return self.sock.recv(2048).decode()
+            # if sent != 0:
+            #     break
+            # return recv
+
                 # print(message)
                 # socket_list = [input, self.sock]
                 # read_sockets, write_sockets, error_sockets = select.select(socket_list, [], [])

@@ -88,29 +88,14 @@ class SelectorServer:
             data = conn.recv(4096)
             if data:
                 peer_name = conn.getpeername()
-                # print(peer_name)
                 logging.info('got data from {}: {!r}'.format(peer_name, data.decode()))
 
                 # TODO: Separate different types of requests
                 json_data = data_handler.parse_json(data.decode())
-                # print(json_data['type'])
-
-                data_handler.handle(conn, json_data)
-
-                # if json_data['type'] == 1:
-                #     verification = data_io.verify_username(json_data['username'])
-                #     print(verification)
-                #     try:
-                #         print("sending bak")
-                #         conn.send("wtf".encode())
-                #     except socket.error as e:
-                #         print(e)
-
-                # if data.decode() == "exit.\n":
-                #     self.close_connection(conn)
-                # else:
-                #     # Assume for simplicity that send won't block
-                #     broadcast_data(conn, (str(peer_name) + ': ' + data.decode()).encode())
+                try:
+                    conn.send(data_handler.handle(json_data).encode())
+                except socket.error as e:
+                    print(e)
             else:
                 if conn in CONNECTION_LIST:
                     CONNECTION_LIST.remove(conn)
@@ -154,6 +139,7 @@ def broadcast_data(client, message):
                     CONNECTION_LIST.remove(s)
                 s.close()
                 print("Error caught: %s", e)
+
 
 if __name__ == '__main__':
     logging.info('starting')

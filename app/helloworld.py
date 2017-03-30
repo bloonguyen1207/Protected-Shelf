@@ -2,9 +2,10 @@ from cement.core.foundation import CementApp
 from cement.core.controller import CementBaseController, expose
 from app import data_handler
 from sockets.client_socket import ClientSocket
-# from classes.user import User
+from classes.user import User
+import bcrypt
 import re
-# import getpass
+import getpass
 # import sys
 
 VERSION = "0.0.1"
@@ -49,25 +50,29 @@ class BaseController(CementBaseController):
         print("Username must be at least 4 chars, only including alphanumeric & underscore")
 
         username = input("Type your name (any name you like): ").strip()
-
+        # TODO: why tf is this always receive None - fixed
         if rule.fullmatch(username) is not None:
             request = data_handler.format_username(username)
-            if client.send_message(request) != "None":
+            response = client.send_message(request)
+            if response != "None":
                 print("Username already existed. Please use another one.")
-            # else:
-        #     psw = getpass.getpass("Type your password: ").strip()
-        #     confirm_psw = getpass.getpass("Do it again (just making sure you're not forgetting it): ").strip()
-        #
-        #     if psw == confirm_psw:
-        #         user = User(username, psw)
-        #         print("User successfully created.")
-        #         print("Type 'shelf login' to login")
-        #     else:
-        #         print("Password does not match. Try again.")
-        #
+            else:
+                salt = bcrypt.gensalt()
+                psw = getpass.getpass("Type your password: ").strip()
+                confirm_psw = getpass.getpass("Do it again (just making sure you're not forgetting it): ").strip()
+
+                if psw == confirm_psw:
+                    user = User(username, salt, psw)
+                    request = data_handler.format_register_user(user)
+                    if client.send_message(request) is not None:
+                        print("User successfully created.")
+                    # print("Username: ", user.name)
+                    # print("Password: ", user.psw)
+                        print("Type 'shelf login' to login")
+                else:
+                    print("Password does not match. Try again.")
         else:
             print("Username invalid. Try again.")
-        # client.close_connection()
 
     # Activate prompt
     @expose(help="Open session")

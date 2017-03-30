@@ -1,5 +1,6 @@
 import json
 import socket
+from sockets import server_socket
 
 from db import data_io
 
@@ -14,17 +15,17 @@ def format_username(username):
     return '{"type": ' + str(ACTION_DICT["verify"]) + ', "username": "' + username + '"}'
 
 
-def register_user(user):
+def format_register_user(user):
     return '{"type": ' + str(ACTION_DICT["register"]) + ', "username": "' + user.name + \
-           '","salt": "' + user.salt + '", password": "' + user.psw + '"}'
+           '","salt": "' + str(user.salt) + '", "password": "' + str(user.psw) + '"}'
 
 
-def handle(conn, data):
+def handle(data):
     if data['type'] == 1:
         verification = data_io.verify_username(data['username'])
-        print(verification)
-        try:
-            conn.send(str(verification).encode())
-        except socket.error as e:
-            print(e)
-    # elif data['type'] == 2:
+        if verification is None:
+            return "None"
+        else:
+            return data_io.verify_username(data['username'])
+    elif data['type'] == 2:
+        return data_io.register_user(data)
