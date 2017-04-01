@@ -47,4 +47,27 @@ def login_user(data):
     except psycopg2.ProgrammingError as e:
         return e
 
-# hash = login_user(json.loads('{"type": 3, "username": "fibb", "password": "123456"}'))
+
+def conv_req(data):
+    conn = connect_to_db()
+    cur = conn.cursor()
+    try:
+        cur.execute("SELECT t_id FROM Trader WHERE username LIKE %s", [data['sender']])
+        sender_id = cur.fetchone()
+        cur.execute("SELECT t_id FROM Trader WHERE username LIKE %s", [data['receiver']])
+        receiver_id = cur.fetchone()
+        query = "INSERT INTO Request(sender_id, receiver_id, sender_key) VALUES (%s, %s, %s)"
+        info = [sender_id, receiver_id, data['sender_key']]
+        cur.execute(query, info)
+        conn.commit()
+        return "Success"
+    except psycopg2.ProgrammingError as e:
+        return e
+
+
+# conn = psycopg2.connect("host='localhost' dbname='shelf' user='bloo' password='Loading...'")
+# conn = connect_to_db()
+# cur = conn.cursor()
+# sender_id = cur.execute("SELECT t_id FROM Trader WHERE username LIKE %s", ["otus"])
+# for tup in cur.fetchone():
+#     print(tup)

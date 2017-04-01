@@ -16,7 +16,7 @@ class ClientSocket:
     def open_connection(self, host, port):
         try:
             self.sock.connect((host, port))
-            print("Connected to remote host. Start sending messages\n Type 'exit.' to disconnect.")
+            # print("Connected to remote host. Start sending messages\n Type 'exit.' to disconnect.")
             # self.prompt()
         except socket.error as e:
             print("Cannot connect to host.")

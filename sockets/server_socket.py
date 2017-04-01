@@ -11,12 +11,10 @@
 # Wait for it
 # -------------------------------------------------------------------------------
 import logging
-import psycopg2
 import selectors
 import socket
 import time
 from app import data_handler
-from db import data_io
 
 HOST = 'localhost'
 PORT = 2222

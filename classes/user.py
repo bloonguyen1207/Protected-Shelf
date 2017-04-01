@@ -1,16 +1,14 @@
 import bcrypt
-import getpass
-import re
+from Crypto.PublicKey import RSA
+import socket
+import os.path
 
-# pword = "I'm awesome"
-# salt = bcrypt.gensalt()
-# hash_psw = bcrypt.hashpw(pword.encode(), salt)
+# s = "Hello world"
+# new_key = RSA.generate(2048)
+# public_key = new_key.publickey()
+# private_key = new_key.exportKey("PEM")
 #
-# test = getpass.getpass("Password: ")
-# if bcrypt.checkpw(test.encode(), hash_psw):
-#     print("Matched")
-# else:
-#     print("Nope")
+# print(public_key.encrypt('Hello'.encode(), 32)[0])
 
 
 class User:
@@ -19,21 +17,34 @@ class User:
         self.salt = salt
         self.psw = bcrypt.hashpw(psw.encode(), self.salt.encode()).decode()
 
+    def set_current_user(self):
+        f = open('appdata/.current_user', 'w')
+        f.write(self.name + '\n' + self.salt + '\n' + self.psw)
+        f.close()
 
-# def register():
-#     rule = re.compile("[a-z0-9_]{4,}")
-#     print("Username must be at least 4 chars, only including alphanumeric & underscore")
-#     username = input("Type your name (any name you like): ").strip()
-#     if rule.fullmatch(username) is not None:
-#         salt = bcrypt.gensalt()
-#         psw = getpass.getpass("Type your password: ").strip()
-#         confirm_psw = getpass.getpass("Do it again (just making sure you're not forgetting it): ").strip()
-#         if psw == confirm_psw:
-#             user = User(username, salt, psw)
-#             print("User created: " + str(user.name))
-#             print("Password: " + str(user.psw))
-#         else:
-#             print("Password does not match. Try again.")
-#     else:
-#         print("Username invalid. Try again.")
+    def gen_key(self):
+        new_key = RSA.generate(2048)
+        public_key = new_key.publickey().exportKey("PEM")
+        private_key = new_key.exportKey("PEM")
+
+        key_dir = "appdata/keystore/{}_{}/".format(self.name, socket.gethostname())
+        pubkey_path = key_dir + "public.key"
+        key_path = key_dir + "private.key"
+        if not os.path.exists(key_dir):
+            os.makedirs(key_dir)
+            if not os.path.isfile(pubkey_path) and not os.path.isfile(key_path):
+                pub_file = open(pubkey_path, 'w')
+                pub_file.write(public_key.decode())
+                pub_file.close()
+
+                key_file = open(key_path, 'w')
+                key_file.write(private_key.decode())
+                key_file.close()
+
+    def publickey(self):
+        key_dir = "appdata/keystore/{}_{}/".format(self.name, socket.gethostname())
+        key_file = open(key_dir + "public.key", 'r')
+        key = key_file.read()
+        key_file.close()
+        return key
 
