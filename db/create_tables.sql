@@ -38,5 +38,5 @@ CREATE TABLE Request (
 	receiver_id SERIAL REFERENCES Trader(t_id),
 	sender_key TEXT NOT NULL,
 	time_sent TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'utc'),
-	status BOOLEAN DEFAULT FALSE
+	status INTEGER DEFAULT 0
 )

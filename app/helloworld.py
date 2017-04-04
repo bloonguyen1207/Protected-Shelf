@@ -7,6 +7,7 @@ import bcrypt
 import getpass
 import re
 import sys
+import tabulate
 
 VERSION = "0.0.1"
 
@@ -45,9 +46,12 @@ class BaseController(CementBaseController):
         arguments = [
             (['-v', '--version'], dict(action='version', version=BANNER)),
             (['-u', '--user'], dict(action='store', metavar='name',
-                                    help='specify username when start new conversation.'))
-            # (['--start-conv', dict],
-            #     dict(action='store', help='Create new user')),
+                                    help='specify username when start new conversation.')),
+            (['-r', '--request'],
+                dict(action='store', metavar='id', help='specify request id to response to.')),
+
+            (['-a', '--answer'],
+             dict(action='store', metavar='answer', help='specify answer to request')),
             ]
 
     @expose(hide=True)
@@ -133,7 +137,7 @@ class BaseController(CementBaseController):
         else:
             self.app.log.info(CURRENT_USER.name + " is the current user.")
 
-    # TODO: Check if request existed.
+    # TODO: Check if request existed. - is this needed?
     @expose(help="Start a new conversation")
     def start_conv(self):
         self.app.log.info("Inside BaseController.start_conv()")
@@ -154,7 +158,7 @@ class BaseController(CementBaseController):
                         print("Sending request to start conversation with " + target + "...")
                         request = data_handler.format_req(CURRENT_USER.name, target, CURRENT_USER.publickey())
                         response = client.send_message(request)
-                        if response is not None:
+                        if response == "Success":
                             self.app.log.info("Request sent. Please wait for the other user to accept.")
                         else:
                             print("Something went wrong. Please try again later.")
@@ -163,6 +167,43 @@ class BaseController(CementBaseController):
         else:
             self.app.log.error("Please login before starting a conversation.")
             print("Type 'shelf login' to login.")
+
+    @expose()
+    def my_key(self):
+        self.app.log.info("Inside BaseController.my_key()")
+        if CURRENT_USER is not None:
+            print(CURRENT_USER.publickey())
+        else:
+            self.app.log.error("You have not logged in yet.")
+            print("Type 'shelf login' to login.")
+
+    @expose()
+    def received_request(self):
+        self.app.log.info("Inside BaseController.received_request()")
+        if CURRENT_USER is not None:
+            client = ClientSocket()
+            client.open_connection(HOST, PORT)
+
+            request = data_handler.format_received_request(CURRENT_USER)
+            response = client.send_message(request)
+            if response == "None":
+                print("You don't have any request.")
+            else:
+                reqs = response.split(", ")
+                table_data = []
+                for i in reqs:
+                    table_data.append(i.split(' '))
+                print(tabulate.tabulate(table_data, ["ID", "Sender", "Status"], tablefmt="psql"))
+        else:
+            self.app.log.error("You have not logged in yet.")
+            print("Type 'shelf login' to login.")
+
+    @expose()
+    def request(self):
+        self.app.log.info("Inside BaseController.request()")
+        if len(sys.argv) < 3 or len(sys.argv) < 5:
+            print("usage: 'shelf request -r [request id] -a [answer(y/n)]'")
+
 
 
 class App(CementApp):

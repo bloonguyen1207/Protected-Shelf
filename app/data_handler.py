@@ -2,7 +2,8 @@ import json
 
 from db import data_io
 
-ACTION_DICT = {"verify": 1, "register": 2, "login": 3, "start conv": 4}
+ACTION_DICT = {"verify": 1, "register": 2, "login": 3, "start conv": 4, "fetch received": 5,
+               "fetch sent": 6, "req ans": 7}
 
 
 def parse_json(data):
@@ -26,7 +27,23 @@ def format_login(user):
 def format_req(sender_name, receiver_name, key):
     return '{"type": ' + str(ACTION_DICT["start conv"]) + \
            ', "sender": "' + sender_name + '", "receiver": "' + \
-           receiver_name + '", "sender_key": "' + key.replace('\n', '') + '"}'
+           receiver_name + '", "sender_key": "' + key.replace('\n', '\\\\n') + '"}'
+
+
+def format_received_request(user):
+    return '{"type": ' + str(ACTION_DICT["fetch received"]) + \
+           ', "username": "' + user.name + '"}'
+
+
+def format_sent_request(user):
+    return '{"type": ' + str(ACTION_DICT["fetch sent"]) + \
+           ', "username": "' + user.name + '", "sender_key": "' + user.publickey().replace('\n', '\\\\n') + '"}'
+
+
+def format_answer(user, req_id, ans):
+    return '{"type": ' + str(ACTION_DICT["req ans"]) + \
+           ', "req_id": ' + req_id + ',"answer": " ' + ans + '", "username": "' + user.name + \
+           '", "receiver_key": "' + user.publickey().replace('\n', '\\\\n') + '"}'
 
 
 def handle(data):
@@ -42,5 +59,13 @@ def handle(data):
         return data_io.login_user(data)
     elif data['type'] == 4:
         return data_io.conv_req(data)
+    elif data['type'] == 5:
+        reqs = data_io.fetch_received_request(data)
+        if reqs is None:
+            return "None"
+        else:
+            return reqs
+    elif data['type'] == 7:
+        auth = data_io.authenticate_req(data)
 
 
