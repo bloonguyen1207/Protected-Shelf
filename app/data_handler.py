@@ -42,7 +42,7 @@ def format_sent_request(user):
 
 def format_answer(user, req_id, ans):
     return '{"type": ' + str(ACTION_DICT["req ans"]) + \
-           ', "req_id": ' + req_id + ',"answer": " ' + ans + '", "username": "' + user.name + \
+           ', "req_id": ' + req_id + ',"answer": "' + ans + '", "username": "' + user.name + \
            '", "receiver_key": "' + user.publickey().replace('\n', '\\\\n') + '"}'
 
 
@@ -66,6 +66,6 @@ def handle(data):
         else:
             return reqs
     elif data['type'] == 7:
-        auth = data_io.authenticate_req(data)
+        return str(data_io.req_response(data))
 
 

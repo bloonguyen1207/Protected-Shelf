@@ -32,7 +32,7 @@ else:
 
 NAME_RULE = re.compile("[a-z0-9_]{4,}")
 
-
+ANSWERS = ['y', 'n', 'yes', 'no']
 # define any hook functions here
 # Bloo: No idea wtf is this
 def my_cleanup_hook(app):
@@ -200,10 +200,34 @@ class BaseController(CementBaseController):
 
     @expose()
     def request(self):
+
         self.app.log.info("Inside BaseController.request()")
         if len(sys.argv) < 3 or len(sys.argv) < 5:
             print("usage: 'shelf request -r [request id] -a [answer(y/n)]'")
+        else:
+            client_res = self.app.pargs.answer
+            if client_res.lower().strip() in ANSWERS:
+                if CURRENT_USER is not None:
+                    client = ClientSocket()
+                    client.open_connection(HOST, PORT)
 
+                    request = data_handler.format_answer(CURRENT_USER,
+                                                         self.app.pargs.request,
+                                                         client_res)
+                    response = client.send_message(request)
+                    if response == "True" and client_res.lower() == 'y' or client_res.lower() == 'yes':
+                        self.app.log.info("Conversation request accepted.")
+                        print("Type 'shelf my-conv' to see available conversations")
+                    elif response == "True" and client_res.lower() == 'n' or client_res.lower() == 'no':
+                        self.app.log.info("Conversation request declined.")
+                    else:
+                        self.app.log.error("You are not authenticated to access this conversation "
+                                           "or conversation not found.")
+                else:
+                    self.app.log.error("You have not logged in yet.")
+                    print("Type 'shelf login' to login.")
+            else:
+                self.app.log.error("Invalid answer.")
 
 
 class App(CementApp):

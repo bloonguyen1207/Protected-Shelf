@@ -115,6 +115,8 @@ def authenticate_req(data):
     info = [data['req_id']]
     cur.execute(query, info)
     receiver_id = cur.fetchone()
+    if receiver_id is None:
+        return False
     name = fetch_name_from_id(receiver_id)[0]
     return name == data['username']
 
@@ -122,14 +124,33 @@ def authenticate_req(data):
 def req_response(data):
     conn = connect_to_db()
     cur = conn.cursor()
-    if data['answer'] == "yes" or data['answer'] == "y":
-        status = 1
-        # TODO: start new conversation in here
+
+    auth = authenticate_req(data)
+    if auth:
+        if data['answer'] == "yes" or data['answer'] == "y":
+            status = 1
+            # TODO: start new conversation in here v
+            # New
+            cur.execute("SELECT sender_id, sender_key FROM Request WHERE r_id=%s", [data['req_id']])
+            tup = cur.fetchone()
+            t_id1 = tup[0]
+            t1_key = tup[1]
+            t_id2 = fetch_id_from_name(data['username'])
+            t2_key = data['receiver_key']
+            new_conv = "INSERT INTO Conversation(t_id1, t_id2, t1_key, t2_key) VALUES (%s, %s, %s, %s)"
+            info = [t_id1, t_id2, t1_key, t2_key]
+            cur.execute(new_conv, info)
+            conn.commit()
+            # -----------
+        else:
+            status = 2
+        query = "UPDATE Request SET status=%s WHERE r_id=%s"
+        info = [status, data['req_id']]
+        cur.execute(query, info)
+        conn.commit()
     else:
-        status = 2
-    query = "UPDATE Request SET status=%s WHERE r_id=%s"
-    info = [status, data['req_id']]
-    cur.execute(query, info)
+        return False
+    return True
 
 # conn = psycopg2.connect("host='localhost' dbname='shelf' user='bloo' password='Loading...'")
 # conn = connect_to_db()
