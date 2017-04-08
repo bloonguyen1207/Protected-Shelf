@@ -47,4 +47,3 @@ class User:
         key = key_file.read()
         key_file.close()
         return key
-

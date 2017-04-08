@@ -69,10 +69,10 @@ def conv_req(data):
     cur = conn.cursor()
     try:
         # cur.execute("SELECT t_id FROM Trader WHERE username LIKE %s", [data['sender']])
-        sender_id = fetch_id_from_name(data['sender'])
+        sender_id = fetch_id_from_name(data['username'])
         # cur.execute("SELECT t_id FROM Trader WHERE username LIKE %s", [data['receiver']])
         receiver_id = fetch_id_from_name(data['receiver'])
-        query = "INSERT INTO Request(sender_id, receiver_id, sender_key) VALUES (%S, %S, %S)"
+        query = "INSERT INTO Request(sender_id, receiver_id, sender_key) VALUES (%s, %s, %s)"
         info = [sender_id, receiver_id, data['sender_key']]
         cur.execute(query, info)
         conn.commit()
@@ -152,6 +152,64 @@ def req_response(data):
         return False
     return True
 
+
+def fetch_conv(data):
+    conn = connect_to_db()
+    cur = conn.cursor()
+    try:
+        uid = fetch_id_from_name(data['username'])
+        query = "SELECT * FROM Conversation WHERE (t_id1=%s OR t_id2=%s)"
+        info = [uid, uid]
+        cur.execute(query, info)
+        l = []
+        for tup in cur.fetchall():
+            uname1 = fetch_name_from_id(tup[1])[0]
+            uname2 = fetch_name_from_id(tup[2])[0]
+            l.append(' '.join([str(tup[0]), uname1, uname2]))
+        if not l:
+            return "None"
+        else:
+            return ', '.join(l)
+    except psycopg2.ProgrammingError as e:
+        return str(e)
+
+
+def authenticate_conv(data):
+    conn = connect_to_db()
+    cur = conn.cursor()
+    query = "SELECT t_id1, t_id2 FROM Conversation WHERE c_id=%s"
+    info = [data['cid']]
+    cur.execute(query, info)
+    tup = cur.fetchone()
+    if tup is None:
+        return False
+    else:
+        tid1 = tup[0]
+        tid2 = tup[1]
+        name1 = fetch_name_from_id(tid1)[0]
+        name2 = fetch_name_from_id(tid2)[0]
+        return name1 == data['username'] or name2 == data['username']
+
+
+def enter_conv(data):
+    conn = connect_to_db()
+    cur = conn.cursor()
+    query = "SELECT * FROM Conversation WHERE c_id=%s"
+    info = [data['cid']]
+    try:
+        cur.execute(query, info)
+        tup = cur.fetchone()
+    except psycopg2.ProgrammingError:
+        return "Internal server error."
+    cid = tup[0]
+    tid1 = tup[1]
+    tid2 = tup[2]
+    key1 = tup[3]
+    key2 = tup[4]
+    name1 = fetch_name_from_id(tid1)[0]
+    name2 = fetch_name_from_id(tid2)[0]
+
+    return {'room': cid, name1+'_key': key1, name2+'_key': key2}
 # conn = psycopg2.connect("host='localhost' dbname='shelf' user='bloo' password='Loading...'")
 # conn = connect_to_db()
 # cur = conn.cursor()

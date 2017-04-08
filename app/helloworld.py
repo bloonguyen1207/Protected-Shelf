@@ -33,6 +33,8 @@ else:
 NAME_RULE = re.compile("[a-z0-9_]{4,}")
 
 ANSWERS = ['y', 'n', 'yes', 'no']
+
+
 # define any hook functions here
 # Bloo: No idea wtf is this
 def my_cleanup_hook(app):
@@ -51,7 +53,10 @@ class BaseController(CementBaseController):
                 dict(action='store', metavar='id', help='specify request id to response to.')),
 
             (['-a', '--answer'],
-             dict(action='store', metavar='answer', help='specify answer to request')),
+             dict(action='store', metavar='ans', help='specify answer to request')),
+
+            (['-c', '--conv'],
+             dict(action='store', metavar='id', help='specify conversation id in command'))
             ]
 
     @expose(hide=True)
@@ -138,7 +143,7 @@ class BaseController(CementBaseController):
             self.app.log.info(CURRENT_USER.name + " is the current user.")
 
     # TODO: Check if request existed. - is this needed?
-    @expose(help="Start a new conversation")
+    @expose(help="Send request to start a new conversation")
     def start_conv(self):
         self.app.log.info("Inside BaseController.start_conv()")
         if CURRENT_USER is not None:
@@ -168,7 +173,7 @@ class BaseController(CementBaseController):
             self.app.log.error("Please login before starting a conversation.")
             print("Type 'shelf login' to login.")
 
-    @expose()
+    @expose(help="Fetch your public key")
     def my_key(self):
         self.app.log.info("Inside BaseController.my_key()")
         if CURRENT_USER is not None:
@@ -177,8 +182,8 @@ class BaseController(CementBaseController):
             self.app.log.error("You have not logged in yet.")
             print("Type 'shelf login' to login.")
 
-    @expose()
-    def received_request(self):
+    @expose(help="Fetch received invitations from others")
+    def recv_req(self):
         self.app.log.info("Inside BaseController.received_request()")
         if CURRENT_USER is not None:
             client = ClientSocket()
@@ -198,7 +203,7 @@ class BaseController(CementBaseController):
             self.app.log.error("You have not logged in yet.")
             print("Type 'shelf login' to login.")
 
-    @expose()
+    @expose(help="Accept or decline pending invitations")
     def request(self):
 
         self.app.log.info("Inside BaseController.request()")
@@ -228,6 +233,52 @@ class BaseController(CementBaseController):
                     print("Type 'shelf login' to login.")
             else:
                 self.app.log.error("Invalid answer.")
+
+    @expose(help="Fetch available conversations")
+    def my_conv(self):
+        self.app.log.info("Inside BaseController.my_conv()")
+        if CURRENT_USER is not None:
+            client = ClientSocket()
+            client.open_connection(HOST, PORT)
+
+            request = data_handler.format_fetch_conv(CURRENT_USER)
+            response = client.send_message(request)
+            if response == "None":
+                print("You don't have any conversation.")
+            else:
+                reqs = response.split(", ")
+                table_data = []
+                for i in reqs:
+                    table_data.append(i.split(' '))
+                print(tabulate.tabulate(table_data, ["ID", "User 1", "User 2"], tablefmt="psql"))
+        else:
+            self.app.log.error("You have not logged in yet.")
+            print("Type 'shelf login' to login.")
+
+    @expose(help="Send request to start a new conversation")
+    def enter_conv(self):
+        self.app.log.info("Inside BaseController.enter_conv()")
+        if CURRENT_USER is not None:
+            if len(sys.argv) < 3:
+                print("usage: 'shelf enter-conv -c [conversation id]'")
+            else:
+                client = ClientSocket()
+                client.open_connection(HOST, PORT)
+
+                request = data_handler.format_enter_conv(CURRENT_USER,
+                                                         self.app.pargs.conv)
+                response = client.send_message(request)
+                if response == "False":
+                    self.app.log.error("Something went wrong. Make sure you entered the correct conversation id.")
+                    print("Type 'shelf my-conv' to see available conversations")
+                else:
+                    while 1:
+                        client.in_conversation(CURRENT_USER.name)
+                    # d = data_handler.parse_json(response.replace("'", '"'))
+                    # print(d['otus_key'].replace('\\n', '\n'))
+        else:
+            self.app.log.error("Please login before starting a conversation.")
+            print("Type 'shelf login' to login.")
 
 
 class App(CementApp):

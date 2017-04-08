@@ -22,6 +22,7 @@ PORT = 2222
 logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(message)s')
 
 CONNECTION_LIST = []
+ROOMS = []
 
 
 # TODO: parse data from string -> json -> Done
@@ -88,7 +89,16 @@ class SelectorServer:
                 # TODO: Separate different types of requests -> see data_handler.py
                 json_data = data_handler.parse_json(data.decode())
                 try:
-                    conn.send(data_handler.handle(json_data).encode())
+                    # TODO: Broadcast message first then room later
+                    if json_data['type'] != 9:
+                        conn.send(data_handler.handle(json_data).encode())
+                        print(data_handler.handle(json_data))
+                    else:
+                        # Send necessary data back to user
+                        conv_data = data_handler.handle(json_data)
+                        conn.send(str(conv_data).encode())
+                    #     # Create or update room
+
                 except socket.error as e:
                     print(e)
             else:
@@ -107,7 +117,7 @@ class SelectorServer:
             # Wait until some registered socket becomes ready. This will block
             # for 200 ms.
             events = self.selector.select(timeout=0.2)
-            print()
+            # print()
             # For each new event, dispatch to its handler
             for key, mask in events:
                 handler = key.data
@@ -135,6 +145,18 @@ def broadcast_data(client, message):
                 s.close()
                 print("Error caught: %s", e)
 
+    # for r in ROOMS:
+    #     for k in r.keys():
+    #         if k != 'room' and r[k] != client:
+    #             try:
+    #                 r[k].send(message)
+    #             except socket.error as e:
+    #                 # broken socket connection may be, chat client pressed ctrl+c for example
+    #                 if r[k] in CONNECTION_LIST:
+    #                     CONNECTION_LIST.remove(r[k])
+    #                 del r[k]
+    #                 r[k].close()
+    #                 print("Error caught: %s", e)
 
 if __name__ == '__main__':
     logging.info('starting')

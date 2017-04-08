@@ -2,6 +2,7 @@
 import socket
 import select
 import sys
+from app import data_handler
 
 
 # TODO: add send message function
@@ -59,7 +60,7 @@ class ClientSocket:
                 #     except socket.error as e:
                 #         print("Caught error: %s", e)
 
-    def in_conversation(self):
+    def in_conversation(self, username):
         socket_list = [sys.stdin, self.sock]
 
         # Get the list sockets which are readable
@@ -80,7 +81,8 @@ class ClientSocket:
             # User entered a message
             else:
                 msg = sys.stdin.readline()
-                self.sock.send(msg.encode())
+                req = data_handler.format_sent_message(username, msg)
+                self.send_message(req)
                 self.prompt()
 
     @staticmethod
@@ -104,5 +106,5 @@ if __name__ == "__main__":
     # connect to remote host
     s.open_connection(host, port)
      
-    while 1:
-        s.in_conversation()
+    # while 1:
+        # s.in_conversation()
