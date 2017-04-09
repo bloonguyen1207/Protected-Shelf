@@ -90,14 +90,12 @@ class SelectorServer:
                 json_data = data_handler.parse_json(data.decode())
                 try:
                     # TODO: Broadcast message first then room later
-                    if json_data['type'] != 9:
-                        conn.send(data_handler.handle(json_data).encode())
-                        print(data_handler.handle(json_data))
-                    else:
-                        # Send necessary data back to user
-                        conv_data = data_handler.handle(json_data)
-                        conn.send(str(conv_data).encode())
-                    #     # Create or update room
+                    handled_data = str(data_handler.handle(json_data))
+                    conn.send(handled_data.encode())
+                    print(handled_data)
+                    # TODO: Here
+                    if json_data['type'] == 10:
+                        broadcast_data(conn, json_data['content'])
 
                 except socket.error as e:
                     print(e)

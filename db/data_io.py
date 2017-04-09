@@ -72,7 +72,7 @@ def conv_req(data):
         sender_id = fetch_id_from_name(data['username'])
         # cur.execute("SELECT t_id FROM Trader WHERE username LIKE %s", [data['receiver']])
         receiver_id = fetch_id_from_name(data['receiver'])
-        query = "INSERT INTO Request(sender_id, receiver_id, sender_key) VALUES (%s, %s, %s)"
+        query = "INSERT INTO Request(sender_id, receiver_id, sender_key) VALUES (%s, %s, E%s)"
         info = [sender_id, receiver_id, data['sender_key']]
         cur.execute(query, info)
         conn.commit()
@@ -137,7 +137,7 @@ def req_response(data):
             t1_key = tup[1]
             t_id2 = fetch_id_from_name(data['username'])
             t2_key = data['receiver_key']
-            new_conv = "INSERT INTO Conversation(t_id1, t_id2, t1_key, t2_key) VALUES (%s, %s, %s, %s)"
+            new_conv = "INSERT INTO Conversation(t_id1, t_id2, t1_key, t2_key) VALUES (%s, %s, E%s, E%s)"
             info = [t_id1, t_id2, t1_key, t2_key]
             cur.execute(new_conv, info)
             conn.commit()
@@ -158,8 +158,9 @@ def fetch_conv(data):
     cur = conn.cursor()
     try:
         uid = fetch_id_from_name(data['username'])
-        query = "SELECT * FROM Conversation WHERE (t_id1=%s OR t_id2=%s)"
-        info = [uid, uid]
+        query = "SELECT * FROM Conversation WHERE (t_id1=%s OR t_id2=%s)" \
+                "AND t1_key LIKE E%s OR t2_key LIKE E%s"
+        info = [uid, uid, data['user_key'], data['user_key']]
         cur.execute(query, info)
         l = []
         for tup in cur.fetchall():
@@ -177,15 +178,15 @@ def fetch_conv(data):
 def authenticate_conv(data):
     conn = connect_to_db()
     cur = conn.cursor()
-    query = "SELECT t_id1, t_id2 FROM Conversation WHERE c_id=%s"
-    info = [data['cid']]
+    query = "SELECT * FROM Conversation WHERE c_id=%s AND (t1_key LIKE E%s OR t2_key LIKE E%s)"
+    info = [data['cid'], data['user_key'], data['user_key']]
     cur.execute(query, info)
     tup = cur.fetchone()
     if tup is None:
         return False
     else:
-        tid1 = tup[0]
-        tid2 = tup[1]
+        tid1 = tup[1]
+        tid2 = tup[2]
         name1 = fetch_name_from_id(tid1)[0]
         name2 = fetch_name_from_id(tid2)[0]
         return name1 == data['username'] or name2 == data['username']
@@ -209,7 +210,7 @@ def enter_conv(data):
     name1 = fetch_name_from_id(tid1)[0]
     name2 = fetch_name_from_id(tid2)[0]
 
-    return {'room': cid, name1+'_key': key1, name2+'_key': key2}
+    return {"room": cid, name1+"_key": key1, name2+"_key": key2}
 # conn = psycopg2.connect("host='localhost' dbname='shelf' user='bloo' password='Loading...'")
 # conn = connect_to_db()
 # cur = conn.cursor()

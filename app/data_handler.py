@@ -56,7 +56,8 @@ def format_fetch_conv(user):
 
 def format_enter_conv(user, cid):
     return '{"type": ' + str(ACTION_DICT["enter conv"]) + \
-           ', "username": "' + user.name + '", "cid":' + str(cid) + '}'
+           ', "username": "' + user.name + '", "user_key": "' + \
+           user.publickey().replace('\n', '\\\\n') + '", "cid":' + str(cid) + '}'
 
 
 def format_sent_message(username, message):
