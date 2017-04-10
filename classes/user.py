@@ -47,3 +47,8 @@ class User:
         key = key_file.read()
         key_file.close()
         return key
+
+    @staticmethod
+    def load_key(key):
+        k = RSA.importKey(key)
+        return k

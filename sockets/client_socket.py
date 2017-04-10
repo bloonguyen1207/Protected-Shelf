@@ -60,7 +60,7 @@ class ClientSocket:
                 #     except socket.error as e:
                 #         print("Caught error: %s", e)
 
-    def in_conversation(self, username):
+    def in_conversation(self, username, room):
         socket_list = [sys.stdin, self.sock]
 
         # Get the list sockets which are readable
@@ -76,12 +76,12 @@ class ClientSocket:
                     sys.exit()
                 else:
                     # Print data
-                    sys.stdout.write(data.decode())
+                    sys.stdout.write(data.decode() + '\n')
                     self.prompt()
             # User entered a message
             else:
                 msg = sys.stdin.readline()
-                req = data_handler.format_sent_message(username, msg)
+                req = data_handler.format_sent_message(username, msg, room)
                 self.send_message(req)
                 self.prompt()
 

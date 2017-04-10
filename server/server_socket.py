@@ -14,7 +14,6 @@ import logging
 import selectors
 import socket
 import time
-
 from server import data_handler
 
 HOST = 'localhost'
@@ -24,6 +23,7 @@ logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(message)s')
 
 CONNECTION_LIST = []
 ROOMS = []
+ROOMS_INFO = []
 
 
 # TODO: parse data from string -> json -> Done
@@ -63,7 +63,7 @@ class SelectorServer:
         self.selector.register(fileobj=conn, events=selectors.EVENT_READ,
                                data=self.on_read)
         CONNECTION_LIST.append(conn)
-        broadcast_data(conn, ("[%s:%s] entered room\n" % addr).encode())
+        # broadcast_data(conn, ("[%s:%s] entered room\n" % addr).encode())
 
     def close_connection(self, conn):
         # We can't ask conn for getpeername() here, because the peer may no
@@ -71,7 +71,7 @@ class SelectorServer:
         # fds to peer names - our socket fd is still open.
         peer_name = self.current_peers[conn.fileno()]
         logging.info('closing connection to {0}'.format(peer_name))
-        broadcast_data(conn, (str(peer_name) + " left.\n").encode())
+        # broadcast_data(conn, (str(peer_name) + " left.\n").encode())
         del self.current_peers[conn.fileno()]
         self.selector.unregister(conn)
         if conn in CONNECTION_LIST:
@@ -95,8 +95,31 @@ class SelectorServer:
                     conn.send(handled_data.encode())
                     print(handled_data)
                     # TODO: Here
+                    if json_data['type'] == 9:
+                        if json_data['cid'] not in ROOMS:
+                            r = {'room': json_data['cid'], json_data['username']: conn, 'server': self.main_socket}
+                            ROOMS_INFO.append(r)
+                            ROOMS.append(json_data['cid'])
+                        else:
+                            for data in ROOMS_INFO:
+                                if data['room'] == json_data['cid']:
+                                    data[json_data['username']] = conn
+                                    broadcast_data(conn, (json_data['username'] + " entered the chat room.").encode(),
+                                                   data)
+                        print(ROOMS)
+                        print(ROOMS_INFO)
                     if json_data['type'] == 10:
-                        broadcast_data(conn, json_data['content'].encode())
+                        room = {}
+                        for data in ROOMS_INFO:
+                            if json_data['room'] == data['room']:
+                                room = data
+                        if json_data['content'] != "exit.":
+                            broadcast_data(conn, ("[" + json_data['username'] + "] :" + json_data['content']).encode(), room)
+                        else:
+                            if len(room) > 3:
+                                broadcast_data(conn, (json_data['username'] + " left the chat room.").encode(), room)
+                            del room[json_data['username']]
+                            self.close_connection(conn)
 
                 except socket.error as e:
                     print(e)
@@ -131,31 +154,30 @@ class SelectorServer:
                 last_report_time = cur_time
 
 
-def broadcast_data(client, message):
+def broadcast_data(client, message, room):
     # Do not send the message to master socket and the client who has send us the message
-    for s in CONNECTION_LIST:
-        if s != CONNECTION_LIST[0] and s != client:
+    # for s in CONNECTION_LIST:
+    #     if s != CONNECTION_LIST[0] and s != client:
+    #         try:
+    #             s.send(message)
+    #         except socket.error as e:
+    #             # broken socket connection may be, chat client pressed ctrl+c for example
+    #             if s in CONNECTION_LIST:
+    #                 CONNECTION_LIST.remove(s)
+    #             s.close()
+    #             print("Error caught: %s", e)
+
+    for k in room.keys():
+        if k != 'room' and room[k] != client and k != "server":
             try:
-                s.send(message)
+                room[k].send(message)
             except socket.error as e:
                 # broken socket connection may be, chat client pressed ctrl+c for example
-                if s in CONNECTION_LIST:
-                    CONNECTION_LIST.remove(s)
-                s.close()
+                if room[k] in CONNECTION_LIST:
+                    CONNECTION_LIST.remove(room[k])
+                room[k].close()
+                del room[k]
                 print("Error caught: %s", e)
-
-    # for r in ROOMS:
-    #     for k in r.keys():
-    #         if k != 'room' and r[k] != client:
-    #             try:
-    #                 r[k].send(message)
-    #             except socket.error as e:
-    #                 # broken socket connection may be, chat client pressed ctrl+c for example
-    #                 if r[k] in CONNECTION_LIST:
-    #                     CONNECTION_LIST.remove(r[k])
-    #                 del r[k]
-    #                 r[k].close()
-    #                 print("Error caught: %s", e)
 
 if __name__ == '__main__':
     logging.info('starting')

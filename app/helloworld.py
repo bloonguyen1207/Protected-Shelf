@@ -273,9 +273,11 @@ class BaseController(CementBaseController):
                     print("Type 'shelf my-conv' to see available conversations")
                 else:
                     conv_data = data_handler.parse_json(response.replace("'", '"'))
-                    print(conv_data.keys())
+                    for k in conv_data.keys():
+                        if k != "room" and k != CURRENT_USER.name + "_key":
+                            f_key = User.load_key(conv_data[k])
                     while 1:
-                        client.in_conversation(CURRENT_USER.name)
+                        client.in_conversation(CURRENT_USER.name, conv_data['room'])
                     # d = data_handler.parse_json(response.replace("'", '"'))
                     # print(d['otus_key'].replace('\\n', '\n'))
         else:

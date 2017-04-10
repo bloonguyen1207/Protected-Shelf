@@ -20,7 +20,7 @@ CREATE TABLE Message_Sent (
 	ms_id SERIAL PRIMARY KEY,
 	c_id SERIAL REFERENCES Conversation(c_id),
 	t_id SERIAL REFERENCES Trader(t_id),
-	msg_content TEXT NOT NULL,
+	msg_content BYTEA NOT NULL,
 	time_sent TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'utc')
 );
 
@@ -28,9 +28,9 @@ CREATE TABLE Message_Received (
 	mr_id SERIAL PRIMARY KEY,
 	c_id SERIAL REFERENCES Conversation(c_id),
 	t_id SERIAL REFERENCES Trader(t_id),
-	msg_content TEXT NOT NULL,
+	msg_content BYTEA NOT NULL,
 	time_received TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'utc')
-)
+);
 
 CREATE TABLE Request (
 	r_id SERIAL PRIMARY KEY,
