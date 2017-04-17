@@ -104,21 +104,24 @@ def fetch_received_request(data):
             return "None"
         else:
             return ', '.join(l)
-    except psycopg2.ProgrammingError as e:
-        return e
+    except psycopg2.ProgrammingError:
+        return "Internal server error."
 
 
 def authenticate_req(data):
     conn = connect_to_db()
     cur = conn.cursor()
-    query = "SELECT receiver_id FROM Request WHERE r_id=%s"
-    info = [data['req_id']]
-    cur.execute(query, info)
-    receiver_id = cur.fetchone()
-    if receiver_id is None:
-        return False
-    name = fetch_name_from_id(receiver_id)[0]
-    return name == data['username']
+    try:
+        query = "SELECT receiver_id FROM Request WHERE r_id=%s"
+        info = [data['req_id']]
+        cur.execute(query, info)
+        receiver_id = cur.fetchone()
+        if receiver_id is None:
+            return False
+        name = fetch_name_from_id(receiver_id)[0]
+        return name == data['username']
+    except psycopg2.ProgrammingError:
+        return "Internal server error."
 
 
 def req_response(data):
@@ -129,8 +132,6 @@ def req_response(data):
     if auth:
         if data['answer'] == "yes" or data['answer'] == "y":
             status = 1
-            # TODO: start new conversation in here v
-            # New
             cur.execute("SELECT sender_id, sender_key FROM Request WHERE r_id=%s", [data['req_id']])
             tup = cur.fetchone()
             t_id1 = tup[0]
@@ -141,13 +142,15 @@ def req_response(data):
             info = [t_id1, t_id2, t1_key, t2_key]
             cur.execute(new_conv, info)
             conn.commit()
-            # -----------
         else:
             status = 2
-        query = "UPDATE Request SET status=%s WHERE r_id=%s"
-        info = [status, data['req_id']]
-        cur.execute(query, info)
-        conn.commit()
+        try:
+            query = "UPDATE Request SET status=%s WHERE r_id=%s"
+            info = [status, data['req_id']]
+            cur.execute(query, info)
+            conn.commit()
+        except psycopg2.ProgrammingError:
+            return "Internal server error."
     else:
         return False
     return True
@@ -211,6 +214,36 @@ def enter_conv(data):
     name2 = fetch_name_from_id(tid2)[0]
 
     return {"room": cid, name1+"_key": key1, name2+"_key": key2}
+
+
+def save_messages(data):
+    conn = connect_to_db()
+    cur = conn.cursor()
+    rid = None
+    uid = fetch_id_from_name(data['username'])
+    try:
+        query = "SELECT t_id1, t_id2 FROM Conversation WHERE c_id=%s"
+        info = [data['room']]
+        cur.execute(query, info)
+        r = cur.fetchone()
+        for i in r:
+            if i != uid:
+                rid = i
+        new_sent_msg = "INSERT INTO message_sent(c_id, t_id, msg_content) VALUES (%s, %s, E%s)"
+        info = [data['room'], uid, data['content']]
+        cur.execute(new_sent_msg, info)
+        conn.commit()
+
+        new_recv_msg = "INSERT INTO message_received(c_id, t_id, msg_content) VALUES (%s, %s, E%s)"
+        info = [data['room'], rid, data['content']]
+        cur.execute(new_recv_msg, info)
+        conn.commit()
+        conn.close()
+        return "Success"
+    except psycopg2.ProgrammingError:
+        return "Internal server error."
+
+
 # conn = psycopg2.connect("host='localhost' dbname='shelf' user='bloo' password='Loading...'")
 # conn = connect_to_db()
 # cur = conn.cursor()

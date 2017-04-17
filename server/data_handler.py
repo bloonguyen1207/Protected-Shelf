@@ -39,5 +39,5 @@ def handle(data):
             return data_io.enter_conv(data)
         return str(auth)
     elif data['type'] == ACTION_DICT["send"]:
-        return "Still so much shiet to do ;A;"
+        return data_io.save_messages(data)
 

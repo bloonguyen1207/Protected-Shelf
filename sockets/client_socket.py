@@ -1,8 +1,13 @@
 # telnet program example
+import codecs
 import socket
 import select
 import sys
+
+import binascii
+
 from app import data_handler
+from classes.user import User
 
 
 # TODO: add send message function
@@ -60,30 +65,53 @@ class ClientSocket:
                 #     except socket.error as e:
                 #         print("Caught error: %s", e)
 
-    def in_conversation(self, username, room):
-        socket_list = [sys.stdin, self.sock]
-
-        # Get the list sockets which are readable
-        read_sockets, write_sockets, error_sockets = select.select(socket_list, [], [])
-
-        for sock in read_sockets:
-            # Incoming message from remote server
-            if sock == self.sock:
-                data = sock.recv(4096)
-                if not data:
-                    # print(data)
-                    print('\nDisconnected from chat server.')
-                    sys.exit()
+    def in_conversation(self, user, room, key):
+        while 1:
+            get_out = False
+            socket_list = [sys.stdin, self.sock]
+            # Get the list sockets which are readable
+            read_sockets, write_sockets, error_sockets = select.select(socket_list, [], [])
+            for sock in read_sockets:
+                # Incoming message from remote server
+                if sock == self.sock:
+                    data = sock.recv(4096)
+                    if not data:
+                        # print(data)
+                        print('\nDisconnected from chat server.')
+                        sys.exit()
+                    else:
+                        my_key = user.load_key(user.my_key())
+                        # Print data
+                        # print(codecs.encode(data.decode(), 'hex'))
+                        # TODO: Split actual data with username
+                        raw_data = data.decode().split(' ')
+                        f_name = raw_data[0]
+                        raw_message = raw_data[1]
+                        if len(raw_message) == 512:
+                            cipher_message = binascii.unhexlify(raw_message.encode())
+                            decrypted = my_key.decrypt(cipher_message)
+                            # print(decrypted)
+                            sys.stdout.write(f_name + ' ' + decrypted.decode())
+                        else:
+                            not_message = data.decode()
+                            sys.stdout.write(not_message + '\n')
+                        # print(len(raw_message.encode()))
+                        self.prompt()
+                # User entered a message
                 else:
-                    # Print data
-                    sys.stdout.write(data.decode() + '\n')
-                    self.prompt()
-            # User entered a message
-            else:
-                msg = sys.stdin.readline()
-                req = data_handler.format_sent_message(username, msg, room)
-                self.send_message(req)
-                self.prompt()
+                    raw_msg = sys.stdin.readline()
+                    if raw_msg != "exit.\n":
+                        msg = key.encrypt(raw_msg.encode(), 32)[0]
+                        processed_msg = binascii.hexlify(msg).decode()
+                        req = data_handler.format_sent_message(user.name, processed_msg, room)
+                        self.send_message(req)
+                        self.prompt()
+                    else:
+                        get_out = True
+                        break
+
+            if get_out:
+                break
 
     @staticmethod
     def prompt():

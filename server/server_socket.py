@@ -94,7 +94,6 @@ class SelectorServer:
                     handled_data = str(data_handler.handle(json_data))
                     conn.send(handled_data.encode())
                     print(handled_data)
-                    # TODO: Here
                     if json_data['type'] == 9:
                         if json_data['cid'] not in ROOMS:
                             r = {'room': json_data['cid'], json_data['username']: conn, 'server': self.main_socket}
@@ -104,8 +103,9 @@ class SelectorServer:
                             for data in ROOMS_INFO:
                                 if data['room'] == json_data['cid']:
                                     data[json_data['username']] = conn
-                                    broadcast_data(conn, (json_data['username'] + " entered the chat room.").encode(),
-                                                   data)
+                                    if len(data) > 3:
+                                        broadcast_data(conn, (json_data['username'] +
+                                                              " entered the chat room.").encode(), data)
                         print(ROOMS)
                         print(ROOMS_INFO)
                     if json_data['type'] == 10:
@@ -114,7 +114,7 @@ class SelectorServer:
                             if json_data['room'] == data['room']:
                                 room = data
                         if json_data['content'] != "exit.":
-                            broadcast_data(conn, ("[" + json_data['username'] + "] :" + json_data['content']).encode(), room)
+                            broadcast_data(conn, ("[" + json_data['username'] + "]: " + json_data['content']).encode(), room)
                         else:
                             if len(room) > 3:
                                 broadcast_data(conn, (json_data['username'] + " left the chat room.").encode(), room)

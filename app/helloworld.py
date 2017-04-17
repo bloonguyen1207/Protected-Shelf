@@ -1,3 +1,7 @@
+import signal
+
+from cement.core import hook
+from cement.core.exc import CaughtSignal
 from cement.core.foundation import CementApp
 from cement.core.controller import CementBaseController, expose
 from app import data_handler
@@ -34,11 +38,24 @@ NAME_RULE = re.compile("[a-z0-9_]{4,}")
 
 ANSWERS = ['y', 'n', 'yes', 'no']
 
+SIGNALS = [signal.SIGTERM, signal.SIGINT, signal.SIGHUP]
+
 
 # define any hook functions here
 # Bloo: No idea wtf is this
 def my_cleanup_hook(app):
     pass
+
+
+def my_signal_handler(app, signum, frame):
+    # do something with app?
+    pass
+
+    # or do someting with signum or frame
+    if signum == signal.SIGTERM:
+        print("Caught SIGTERM...")
+    elif signum == signal.SIGINT:
+        print("Caught SIGINT...")
 
 
 class BaseController(CementBaseController):
@@ -272,12 +289,15 @@ class BaseController(CementBaseController):
                     self.app.log.error("Something went wrong. Make sure you entered the correct conversation id.")
                     print("Type 'shelf my-conv' to see available conversations")
                 else:
+                    f_key = None
                     conv_data = data_handler.parse_json(response.replace("'", '"'))
                     for k in conv_data.keys():
                         if k != "room" and k != CURRENT_USER.name + "_key":
                             f_key = User.load_key(conv_data[k])
-                    while 1:
-                        client.in_conversation(CURRENT_USER.name, conv_data['room'])
+
+                    sys.stdout.write('>> ')
+                    sys.stdout.flush()
+                    client.in_conversation(CURRENT_USER, conv_data['room'], f_key)
                     # d = data_handler.parse_json(response.replace("'", '"'))
                     # print(d['otus_key'].replace('\\n', '\n'))
         else:
@@ -287,19 +307,25 @@ class BaseController(CementBaseController):
 
 class App(CementApp):
     class Meta:
+
         label = 'shelf'
         extensions = ['json', 'colorlog']
         log_handler = 'colorlog'
         hooks = [
             ('pre_close', my_cleanup_hook),
+            ('signal', my_signal_handler)
         ]
         base_controller = 'base'
         handlers = [BaseController]
 
-
 with App() as app:
     # log stuff
     app.log.debug("About to run " + BANNER)
-
     # run the application
-    app.run()
+    try:
+        app.run()
+    except CaughtSignal as e:
+        if e.signum == signal.SIGTERM:
+            print("\nCaught SIGTERM...")
+        elif e.signum == signal.SIGINT:
+            print("\nExiting...")

@@ -48,6 +48,13 @@ class User:
         key_file.close()
         return key
 
+    def my_key(self):
+        key_dir = "appdata/keystore/{}_{}/".format(self.name, socket.gethostname())
+        key_file = open(key_dir + "private.key", 'r')
+        key = key_file.read()
+        key_file.close()
+        return key
+
     @staticmethod
     def load_key(key):
         k = RSA.importKey(key)
