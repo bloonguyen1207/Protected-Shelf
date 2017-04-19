@@ -103,6 +103,9 @@ class SelectorServer:
                             for data in ROOMS_INFO:
                                 if data['room'] == json_data['cid']:
                                     data[json_data['username']] = conn
+                                    for k, v in data.copy().items():
+                                        if v != data['room'] and v not in CONNECTION_LIST:
+                                            del data[k]
                                     if len(data) > 3:
                                         broadcast_data(conn, (json_data['username'] +
                                                               " entered the chat room.").encode(), data)
@@ -116,8 +119,7 @@ class SelectorServer:
                         if json_data['content'] != "exit.":
                             broadcast_data(conn, ("[" + json_data['username'] + "]: " + json_data['content']).encode(), room)
                         else:
-                            if len(room) > 3:
-                                broadcast_data(conn, (json_data['username'] + " left the chat room.").encode(), room)
+
                             del room[json_data['username']]
                             self.close_connection(conn)
 
@@ -126,6 +128,14 @@ class SelectorServer:
             else:
                 if conn in CONNECTION_LIST:
                     CONNECTION_LIST.remove(conn)
+
+                for data in ROOMS_INFO:
+                    for k, v in data.copy().items():
+                        if v != data['room'] and v not in CONNECTION_LIST:
+                            del data[k]
+                    if len(data) > 2:
+                        broadcast_data(conn, "The other user left the chat room.".encode(), data)
+                print(ROOMS_INFO)
                 self.close_connection(conn)
         except ConnectionResetError:
             if conn in CONNECTION_LIST:
