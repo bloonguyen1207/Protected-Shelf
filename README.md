@@ -3,5 +3,6 @@
 ## Packages used ##
 
 - Bcrypt
-- Pycrypto
 - Colorlog
+- Pycrypto
+- psycopg2
