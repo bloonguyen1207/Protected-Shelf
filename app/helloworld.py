@@ -1,6 +1,5 @@
 import signal
 
-from cement.core import hook
 from cement.core.exc import CaughtSignal
 from cement.core.foundation import CementApp
 from cement.core.controller import CementBaseController, expose
@@ -45,17 +44,6 @@ SIGNALS = [signal.SIGTERM, signal.SIGINT, signal.SIGHUP]
 # Bloo: No idea wtf is this
 def my_cleanup_hook(app):
     pass
-
-
-def my_signal_handler(app, signum, frame):
-    # do something with app?
-    pass
-
-    # or do someting with signum or frame
-    if signum == signal.SIGTERM:
-        print("Caught SIGTERM...")
-    elif signum == signal.SIGINT:
-        print("Caught SIGINT...")
 
 
 class BaseController(CementBaseController):
@@ -298,8 +286,6 @@ class BaseController(CementBaseController):
                     sys.stdout.write('>> ')
                     sys.stdout.flush()
                     client.in_conversation(CURRENT_USER, conv_data['room'], f_key)
-                    # d = data_handler.parse_json(response.replace("'", '"'))
-                    # print(d['otus_key'].replace('\\n', '\n'))
         else:
             self.app.log.error("Please login before starting a conversation.")
             print("Type 'shelf login' to login.")
@@ -313,7 +299,6 @@ class App(CementApp):
         log_handler = 'colorlog'
         hooks = [
             ('pre_close', my_cleanup_hook),
-            ('signal', my_signal_handler)
         ]
         base_controller = 'base'
         handlers = [BaseController]

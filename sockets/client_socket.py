@@ -45,26 +45,6 @@ class ClientSocket:
             #     break
             # return recv
 
-                # print(message)
-                # socket_list = [input, self.sock]
-                # read_sockets, write_sockets, error_sockets = select.select(socket_list, [], [])
-
-                # for sock in read_sockets:
-                # if self.sock:
-                #     data = self.sock.recv(4096)
-                #     if not data:
-                #         print(data)
-                #         print('\nDisconnected from server.')
-                #         sys.exit()
-                #     else:
-                #         # Print data
-                #         sys.stdout.write(data.decode())
-                # else:
-                #     try:
-                #         self.sock.send(message.encode())
-                #     except socket.error as e:
-                #         print("Caught error: %s", e)
-
     def in_conversation(self, user, room, key):
         while 1:
             get_out = False
@@ -81,12 +61,11 @@ class ClientSocket:
                         sys.exit()
                     else:
                         my_key = user.load_key(user.my_key())
-                        # Print data
-                        # print(codecs.encode(data.decode(), 'hex'))
-                        # TODO: Split actual data with username
+                        # TODO: Split actual data with username - done
                         raw_data = data.decode().split(' ')
                         f_name = raw_data[0]
                         raw_message = raw_data[1]
+
                         if len(raw_message) == 512:
                             cipher_message = binascii.unhexlify(raw_message.encode())
                             decrypted = my_key.decrypt(cipher_message)
@@ -95,11 +74,13 @@ class ClientSocket:
                         else:
                             not_message = data.decode()
                             sys.stdout.write(not_message + '\n')
-                        # print(len(raw_message.encode()))
+
                         self.prompt()
+
                 # User entered a message
                 else:
                     raw_msg = sys.stdin.readline()
+
                     if raw_msg != "exit.\n":
                         msg = key.encrypt(raw_msg.encode(), 32)[0]
                         processed_msg = binascii.hexlify(msg).decode()

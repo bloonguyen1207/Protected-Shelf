@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="cb3da928-f99e-4faf-99ce-23cdeeef5223" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/helloworld.py" afterPath="$PROJECT_DIR$/app/helloworld.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/data_io.py" afterPath="$PROJECT_DIR$/db/data_io.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/server_socket.py" afterPath="$PROJECT_DIR$/server/server_socket.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -13,7 +15,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/shelf$server_socket__1_.coverage" NAME="server_socket (1) Coverage Results" MODIFIED="1492583385277" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/server" />
+    <SUITE FILE_PATH="coverage/shelf$server_socket__1_.coverage" NAME="server_socket (1) Coverage Results" MODIFIED="1492676180550" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/server" />
     <SUITE FILE_PATH="coverage/shelf$helloworld.coverage" NAME="helloworld Coverage Results" MODIFIED="1490688745562" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
     <SUITE FILE_PATH="coverage/shelf$shelf_tables.coverage" NAME="shelf_tables Coverage Results" MODIFIED="1491288789344" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db" />
     <SUITE FILE_PATH="coverage/shelf$client.coverage" NAME="client Coverage Results" MODIFIED="1490846807095" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/sockets" />
@@ -36,11 +38,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="server_socket.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="server_socket.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/server_socket.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="141" column="44" lean-forward="true" selection-start-line="141" selection-start-column="44" selection-end-line="141" selection-end-column="44" />
+            <state relative-caret-position="2416">
+              <caret line="139" column="14" lean-forward="true" selection-start-line="139" selection-start-column="14" selection-end-line="139" selection-end-column="14" />
               <folding>
                 <element signature="e#529#543#0" expanded="true" />
               </folding>
@@ -51,7 +53,7 @@
       <file leaf-file-name="data_handler.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/data_handler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
+            <state relative-caret-position="220">
               <caret line="41" column="42" lean-forward="false" selection-start-line="41" selection-start-column="42" selection-end-line="41" selection-end-column="42" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
@@ -60,11 +62,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="data_io.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="data_io.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/db/data_io.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="245" column="0" lean-forward="false" selection-start-line="245" selection-start-column="0" selection-end-line="245" selection-end-column="0" />
+            <state relative-caret-position="140">
+              <caret line="79" column="8" lean-forward="false" selection-start-line="79" selection-start-column="8" selection-end-line="79" selection-end-column="8" />
               <folding>
                 <element signature="e#81#189#0" expanded="false" />
                 <element signature="e#230#381#0" expanded="false" />
@@ -73,37 +75,35 @@
                 <element signature="e#976#1336#0" expanded="false" />
                 <element signature="e#1365#1697#0" expanded="false" />
                 <element signature="e#1429#1637#0" expanded="false" />
-                <element signature="e#2498#3134#0" expanded="false" />
-                <element signature="e#3892#4412#0" expanded="false" />
-                <element signature="e#4796#5499#0" expanded="false" />
-                <element signature="e#5535#6045#0" expanded="false" />
-                <element signature="e#6074#6584#0" expanded="false" />
-                <element signature="e#6616#7514#0" expanded="false" />
-                <element signature="e#7514#7608#0" expanded="false" />
-                <marker date="1492412163765" expanded="true" signature="294:340" ph="SELECT salt Trader" />
-                <marker date="1492412163765" expanded="true" signature="482:523" ph="SELECT id FR... Trader" />
-                <marker date="1492412163765" expanded="true" signature="675:721" ph="SELECT salt Trader" />
-                <marker date="1492412163765" expanded="true" signature="1049:1108" ph="INSERT INTO Trader... " />
-                <marker date="1492412163765" expanded="true" signature="1438:1483" ph="SELECT * FRO... Trader" />
-                <marker date="1492412163765" expanded="true" signature="2095:2171" ph="INSERT INTO Request... " />
-                <marker date="1492412163765" expanded="true" signature="2562:2626" ph="SELECT r_id,... Request" />
-                <marker date="1492412163765" expanded="true" signature="3320:3365" ph="SELECT recei... Request" />
-                <marker date="1492412163765" expanded="true" signature="3928:3983" ph="SELECT sende... Request" />
-                <marker date="1492412163765" expanded="true" signature="4215:4295" ph="INSERT INTO Conversation... " />
-                <marker date="1492412163765" expanded="true" signature="4484:4526" ph="UPDATE Reque... " />
-                <marker date="1492412163765" expanded="true" signature="4920:4953" ph="SELECT * FRO... Conversation" />
-                <marker date="1492412163765" expanded="true" signature="4920:4975" ph="SELECT * FRO... Conversation" />
-                <marker date="1492412163765" expanded="true" signature="4920:4999" ph="SELECT * FRO... Conversation" />
-                <marker date="1492412163765" expanded="true" signature="4920:5034" ph="SELECT * FRO... Conversation" />
-                <marker date="1492412163765" expanded="true" signature="4920:5035" ph="SELECT * FRO... Conversation" />
-                <marker date="1492412163765" expanded="true" signature="5595:5635" ph="SELECT c_id WHERE" />
-                <marker date="1492412163765" expanded="true" signature="5595:5652" ph="SELECT * FRO... Conversation" />
-                <marker date="1492412163765" expanded="true" signature="5595:5676" ph="SELECT * FRO... Conversation" />
-                <marker date="1492412163765" expanded="true" signature="6134:6174" ph="SELECT * FRO... Conversation" />
-                <marker date="1492412163765" expanded="true" signature="6751:6802" ph="SELECT t_id1... Conversation" />
-                <marker date="1492412163765" expanded="true" signature="6987:7057" ph="INSERT INTO message_sent... " />
-                <marker date="1492412163765" expanded="true" signature="7198:7272" ph="INSERT INTO message_received... " />
-                <marker date="1492412163765" expanded="true" signature="7708:7772" ph="SELECT r_id,... Request" />
+                <element signature="e#2516#3152#0" expanded="false" />
+                <element signature="e#5637#6147#0" expanded="false" />
+                <element signature="e#6176#6686#0" expanded="false" />
+                <element signature="e#6718#7616#0" expanded="false" />
+                <element signature="e#7616#7710#0" expanded="false" />
+                <marker date="1492677050555" expanded="true" signature="294:340" ph="SELECT salt Trader" />
+                <marker date="1492677050555" expanded="true" signature="482:523" ph="SELECT id FR... Trader" />
+                <marker date="1492677050555" expanded="true" signature="675:721" ph="SELECT salt Trader" />
+                <marker date="1492677050555" expanded="true" signature="1049:1108" ph="INSERT INTO Trader... " />
+                <marker date="1492677050555" expanded="true" signature="1438:1483" ph="SELECT * FRO... Trader" />
+                <marker date="1492677050555" expanded="true" signature="2095:2171" ph="INSERT INTO Request... " />
+                <marker date="1492677050555" expanded="true" signature="2580:2644" ph="SELECT r_id,... Request" />
+                <marker date="1492677050555" expanded="true" signature="3338:3383" ph="SELECT recei... Request" />
+                <marker date="1492677050555" expanded="true" signature="4015:4070" ph="SELECT sende... Request" />
+                <marker date="1492677050555" expanded="true" signature="4305:4385" ph="INSERT INTO Conversation... " />
+                <marker date="1492677050555" expanded="true" signature="4574:4616" ph="UPDATE Reque... " />
+                <marker date="1492677050555" expanded="true" signature="5010:5043" ph="SELECT * FRO... Conversation" />
+                <marker date="1492677050555" expanded="true" signature="5010:5065" ph="SELECT * FRO... Conversation" />
+                <marker date="1492677050555" expanded="true" signature="5010:5089" ph="SELECT * FRO... Conversation" />
+                <marker date="1492677050555" expanded="true" signature="5010:5124" ph="SELECT * FRO... Conversation" />
+                <marker date="1492677050555" expanded="true" signature="5010:5125" ph="SELECT * FRO... Conversation" />
+                <marker date="1492677050555" expanded="true" signature="5697:5737" ph="SELECT c_id WHERE" />
+                <marker date="1492677050555" expanded="true" signature="5697:5754" ph="SELECT * FRO... Conversation" />
+                <marker date="1492677050555" expanded="true" signature="5697:5778" ph="SELECT * FRO... Conversation" />
+                <marker date="1492677050555" expanded="true" signature="6236:6276" ph="SELECT * FRO... Conversation" />
+                <marker date="1492677050555" expanded="true" signature="6853:6904" ph="SELECT t_id1... Conversation" />
+                <marker date="1492677050555" expanded="true" signature="7089:7159" ph="INSERT INTO message_sent... " />
+                <marker date="1492677050555" expanded="true" signature="7300:7374" ph="INSERT INTO message_received... " />
+                <marker date="1492677050555" expanded="true" signature="7810:7874" ph="SELECT r_id,... Request" />
               </folding>
             </state>
           </provider>
@@ -112,7 +112,7 @@
       <file leaf-file-name="client_socket.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sockets/client_socket.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="191">
+            <state relative-caret-position="311">
               <caret line="109" column="0" lean-forward="false" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
               <folding>
                 <element signature="e#25#38#0" expanded="true" />
@@ -125,23 +125,23 @@
       <file leaf-file-name="helloworld.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/helloworld.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1780">
-              <caret line="19" column="17" lean-forward="false" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
+            <state relative-caret-position="-1060">
+              <caret line="131" column="90" lean-forward="true" selection-start-line="131" selection-start-column="90" selection-end-line="131" selection-end-column="90" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
-                <element signature="e#1385#2100#0" expanded="false" />
-                <element signature="e#2156#2310#0" expanded="false" />
-                <element signature="e#2381#3811#0" expanded="false" />
-                <element signature="e#2804#3728#0" expanded="false" />
-                <element signature="e#3872#4878#0" expanded="false" />
-                <element signature="e#4924#5101#0" expanded="false" />
-                <element signature="e#5153#5453#0" expanded="false" />
-                <element signature="e#5600#7033#0" expanded="false" />
-                <element signature="e#7107#7365#0" expanded="false" />
-                <element signature="e#7458#8254#0" expanded="false" />
-                <element signature="e#8155#8254#0" expanded="false" />
-                <element signature="e#8346#9934#0" expanded="false" />
-                <element signature="e#10017#10803#0" expanded="false" />
+                <element signature="e#1123#1838#0" expanded="false" />
+                <element signature="e#1894#2048#0" expanded="false" />
+                <element signature="e#2119#3549#0" expanded="false" />
+                <element signature="e#2542#3466#0" expanded="false" />
+                <element signature="e#3610#4616#0" expanded="false" />
+                <element signature="e#4662#4839#0" expanded="false" />
+                <element signature="e#4891#5191#0" expanded="false" />
+                <element signature="e#5338#6771#0" expanded="false" />
+                <element signature="e#6845#7103#0" expanded="false" />
+                <element signature="e#7196#7992#0" expanded="false" />
+                <element signature="e#7893#7992#0" expanded="false" />
+                <element signature="e#8084#9672#0" expanded="false" />
+                <element signature="e#9755#10541#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -182,10 +182,10 @@
         <option value="$PROJECT_DIR$/app/data_handler.py" />
         <option value="$PROJECT_DIR$/classes/user.py" />
         <option value="$PROJECT_DIR$/server/data_handler.py" />
-        <option value="$PROJECT_DIR$/db/data_io.py" />
-        <option value="$PROJECT_DIR$/app/helloworld.py" />
         <option value="$PROJECT_DIR$/sockets/client_socket.py" />
+        <option value="$PROJECT_DIR$/app/helloworld.py" />
         <option value="$PROJECT_DIR$/server/server_socket.py" />
+        <option value="$PROJECT_DIR$/db/data_io.py" />
       </list>
     </option>
   </component>
@@ -196,10 +196,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="41" />
-    <option name="y" value="-4" />
-    <option name="width" value="1325" />
-    <option name="height" value="772" />
+    <option name="x" value="40" />
+    <option name="y" value="-11" />
+    <option name="width" value="1327" />
+    <option name="height" value="780" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -217,6 +217,7 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -315,7 +316,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -687,10 +687,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="41" y="-4" width="1325" height="772" extended-state="6" />
+    <frame x="40" y="-11" width="1327" height="780" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28068805" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2853792" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32886904" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32738096" sideWeight="0.51055515" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -720,7 +720,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="4" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1036,32 +1036,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/helloworld.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1780">
-          <caret line="19" column="17" lean-forward="false" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-            <element signature="e#1385#2100#0" expanded="false" />
-            <element signature="e#2156#2310#0" expanded="false" />
-            <element signature="e#2381#3811#0" expanded="false" />
-            <element signature="e#2804#3728#0" expanded="false" />
-            <element signature="e#3872#4878#0" expanded="false" />
-            <element signature="e#4924#5101#0" expanded="false" />
-            <element signature="e#5153#5453#0" expanded="false" />
-            <element signature="e#5600#7033#0" expanded="false" />
-            <element signature="e#7107#7365#0" expanded="false" />
-            <element signature="e#7458#8254#0" expanded="false" />
-            <element signature="e#8155#8254#0" expanded="false" />
-            <element signature="e#8346#9934#0" expanded="false" />
-            <element signature="e#10017#10803#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sockets/client_socket.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
+        <state relative-caret-position="311">
           <caret line="109" column="0" lean-forward="false" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
           <folding>
             <element signature="e#25#38#0" expanded="true" />
@@ -1070,10 +1047,53 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/helloworld.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1060">
+          <caret line="131" column="90" lean-forward="true" selection-start-line="131" selection-start-column="90" selection-end-line="131" selection-end-column="90" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#1123#1838#0" expanded="false" />
+            <element signature="e#1894#2048#0" expanded="false" />
+            <element signature="e#2119#3549#0" expanded="false" />
+            <element signature="e#2542#3466#0" expanded="false" />
+            <element signature="e#3610#4616#0" expanded="false" />
+            <element signature="e#4662#4839#0" expanded="false" />
+            <element signature="e#4891#5191#0" expanded="false" />
+            <element signature="e#5338#6771#0" expanded="false" />
+            <element signature="e#6845#7103#0" expanded="false" />
+            <element signature="e#7196#7992#0" expanded="false" />
+            <element signature="e#7893#7992#0" expanded="false" />
+            <element signature="e#8084#9672#0" expanded="false" />
+            <element signature="e#9755#10541#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/server_socket.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2416">
+          <caret line="139" column="14" lean-forward="true" selection-start-line="139" selection-start-column="14" selection-end-line="139" selection-end-column="14" />
+          <folding>
+            <element signature="e#529#543#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/data_handler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="41" column="42" lean-forward="false" selection-start-line="41" selection-start-column="42" selection-end-line="41" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/db/data_io.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="245" column="0" lean-forward="false" selection-start-line="245" selection-start-column="0" selection-end-line="245" selection-end-column="0" />
+        <state relative-caret-position="140">
+          <caret line="79" column="8" lean-forward="false" selection-start-line="79" selection-start-column="8" selection-end-line="79" selection-end-column="8" />
           <folding>
             <element signature="e#81#189#0" expanded="false" />
             <element signature="e#230#381#0" expanded="false" />
@@ -1082,57 +1102,35 @@
             <element signature="e#976#1336#0" expanded="false" />
             <element signature="e#1365#1697#0" expanded="false" />
             <element signature="e#1429#1637#0" expanded="false" />
-            <element signature="e#2498#3134#0" expanded="false" />
-            <element signature="e#3892#4412#0" expanded="false" />
-            <element signature="e#4796#5499#0" expanded="false" />
-            <element signature="e#5535#6045#0" expanded="false" />
-            <element signature="e#6074#6584#0" expanded="false" />
-            <element signature="e#6616#7514#0" expanded="false" />
-            <element signature="e#7514#7608#0" expanded="false" />
-            <marker date="1492412163765" expanded="true" signature="294:340" ph="SELECT salt Trader" />
-            <marker date="1492412163765" expanded="true" signature="482:523" ph="SELECT id FR... Trader" />
-            <marker date="1492412163765" expanded="true" signature="675:721" ph="SELECT salt Trader" />
-            <marker date="1492412163765" expanded="true" signature="1049:1108" ph="INSERT INTO Trader... " />
-            <marker date="1492412163765" expanded="true" signature="1438:1483" ph="SELECT * FRO... Trader" />
-            <marker date="1492412163765" expanded="true" signature="2095:2171" ph="INSERT INTO Request... " />
-            <marker date="1492412163765" expanded="true" signature="2562:2626" ph="SELECT r_id,... Request" />
-            <marker date="1492412163765" expanded="true" signature="3320:3365" ph="SELECT recei... Request" />
-            <marker date="1492412163765" expanded="true" signature="3928:3983" ph="SELECT sende... Request" />
-            <marker date="1492412163765" expanded="true" signature="4215:4295" ph="INSERT INTO Conversation... " />
-            <marker date="1492412163765" expanded="true" signature="4484:4526" ph="UPDATE Reque... " />
-            <marker date="1492412163765" expanded="true" signature="4920:4953" ph="SELECT * FRO... Conversation" />
-            <marker date="1492412163765" expanded="true" signature="4920:4975" ph="SELECT * FRO... Conversation" />
-            <marker date="1492412163765" expanded="true" signature="4920:4999" ph="SELECT * FRO... Conversation" />
-            <marker date="1492412163765" expanded="true" signature="4920:5034" ph="SELECT * FRO... Conversation" />
-            <marker date="1492412163765" expanded="true" signature="4920:5035" ph="SELECT * FRO... Conversation" />
-            <marker date="1492412163765" expanded="true" signature="5595:5635" ph="SELECT c_id WHERE" />
-            <marker date="1492412163765" expanded="true" signature="5595:5652" ph="SELECT * FRO... Conversation" />
-            <marker date="1492412163765" expanded="true" signature="5595:5676" ph="SELECT * FRO... Conversation" />
-            <marker date="1492412163765" expanded="true" signature="6134:6174" ph="SELECT * FRO... Conversation" />
-            <marker date="1492412163765" expanded="true" signature="6751:6802" ph="SELECT t_id1... Conversation" />
-            <marker date="1492412163765" expanded="true" signature="6987:7057" ph="INSERT INTO message_sent... " />
-            <marker date="1492412163765" expanded="true" signature="7198:7272" ph="INSERT INTO message_received... " />
-            <marker date="1492412163765" expanded="true" signature="7708:7772" ph="SELECT r_id,... Request" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/data_handler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="41" column="42" lean-forward="false" selection-start-line="41" selection-start-column="42" selection-end-line="41" selection-end-column="42" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/server_socket.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="141" column="44" lean-forward="true" selection-start-line="141" selection-start-column="44" selection-end-line="141" selection-end-column="44" />
-          <folding>
-            <element signature="e#529#543#0" expanded="true" />
+            <element signature="e#2516#3152#0" expanded="false" />
+            <element signature="e#5637#6147#0" expanded="false" />
+            <element signature="e#6176#6686#0" expanded="false" />
+            <element signature="e#6718#7616#0" expanded="false" />
+            <element signature="e#7616#7710#0" expanded="false" />
+            <marker date="1492677050555" expanded="true" signature="294:340" ph="SELECT salt Trader" />
+            <marker date="1492677050555" expanded="true" signature="482:523" ph="SELECT id FR... Trader" />
+            <marker date="1492677050555" expanded="true" signature="675:721" ph="SELECT salt Trader" />
+            <marker date="1492677050555" expanded="true" signature="1049:1108" ph="INSERT INTO Trader... " />
+            <marker date="1492677050555" expanded="true" signature="1438:1483" ph="SELECT * FRO... Trader" />
+            <marker date="1492677050555" expanded="true" signature="2095:2171" ph="INSERT INTO Request... " />
+            <marker date="1492677050555" expanded="true" signature="2580:2644" ph="SELECT r_id,... Request" />
+            <marker date="1492677050555" expanded="true" signature="3338:3383" ph="SELECT recei... Request" />
+            <marker date="1492677050555" expanded="true" signature="4015:4070" ph="SELECT sende... Request" />
+            <marker date="1492677050555" expanded="true" signature="4305:4385" ph="INSERT INTO Conversation... " />
+            <marker date="1492677050555" expanded="true" signature="4574:4616" ph="UPDATE Reque... " />
+            <marker date="1492677050555" expanded="true" signature="5010:5043" ph="SELECT * FRO... Conversation" />
+            <marker date="1492677050555" expanded="true" signature="5010:5065" ph="SELECT * FRO... Conversation" />
+            <marker date="1492677050555" expanded="true" signature="5010:5089" ph="SELECT * FRO... Conversation" />
+            <marker date="1492677050555" expanded="true" signature="5010:5124" ph="SELECT * FRO... Conversation" />
+            <marker date="1492677050555" expanded="true" signature="5010:5125" ph="SELECT * FRO... Conversation" />
+            <marker date="1492677050555" expanded="true" signature="5697:5737" ph="SELECT c_id WHERE" />
+            <marker date="1492677050555" expanded="true" signature="5697:5754" ph="SELECT * FRO... Conversation" />
+            <marker date="1492677050555" expanded="true" signature="5697:5778" ph="SELECT * FRO... Conversation" />
+            <marker date="1492677050555" expanded="true" signature="6236:6276" ph="SELECT * FRO... Conversation" />
+            <marker date="1492677050555" expanded="true" signature="6853:6904" ph="SELECT t_id1... Conversation" />
+            <marker date="1492677050555" expanded="true" signature="7089:7159" ph="INSERT INTO message_sent... " />
+            <marker date="1492677050555" expanded="true" signature="7300:7374" ph="INSERT INTO message_received... " />
+            <marker date="1492677050555" expanded="true" signature="7810:7874" ph="SELECT r_id,... Request" />
           </folding>
         </state>
       </provider>

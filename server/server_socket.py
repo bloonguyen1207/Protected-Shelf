@@ -94,34 +94,34 @@ class SelectorServer:
                     handled_data = str(data_handler.handle(json_data))
                     conn.send(handled_data.encode())
                     print(handled_data)
-                    if json_data['type'] == 9:
+
+                    if json_data['type'] == 9:      # Enter conversation
+
+                        # Create room if room if 1st time enter conversation
+                        # Otherwise just get room data from existed room
+
                         if json_data['cid'] not in ROOMS:
                             r = {'room': json_data['cid'], json_data['username']: conn, 'server': self.main_socket}
                             ROOMS_INFO.append(r)
                             ROOMS.append(json_data['cid'])
+
                         else:
                             for data in ROOMS_INFO:
                                 if data['room'] == json_data['cid']:
                                     data[json_data['username']] = conn
-                                    for k, v in data.copy().items():
-                                        if v != data['room'] and v not in CONNECTION_LIST:
-                                            del data[k]
+
+                                    # Inform if the other user is still in the room
                                     if len(data) > 3:
                                         broadcast_data(conn, (json_data['username'] +
                                                               " entered the chat room.").encode(), data)
                         print(ROOMS)
                         print(ROOMS_INFO)
-                    if json_data['type'] == 10:
+                    if json_data['type'] == 10:     # Send message
                         room = {}
                         for data in ROOMS_INFO:
                             if json_data['room'] == data['room']:
                                 room = data
-                        if json_data['content'] != "exit.":
-                            broadcast_data(conn, ("[" + json_data['username'] + "]: " + json_data['content']).encode(), room)
-                        else:
-
-                            del room[json_data['username']]
-                            self.close_connection(conn)
+                        broadcast_data(conn, ("[" + json_data['username'] + "]: " + json_data['content']).encode(), room)
 
                 except socket.error as e:
                     print(e)
@@ -129,17 +129,27 @@ class SelectorServer:
                 if conn in CONNECTION_LIST:
                     CONNECTION_LIST.remove(conn)
 
+                # Check for inactive connection in room and remove them
                 for data in ROOMS_INFO:
                     for k, v in data.copy().items():
                         if v != data['room'] and v not in CONNECTION_LIST:
                             del data[k]
                     if len(data) > 2:
                         broadcast_data(conn, "The other user left the chat room.".encode(), data)
+
                 print(ROOMS_INFO)
                 self.close_connection(conn)
         except ConnectionResetError:
             if conn in CONNECTION_LIST:
                 CONNECTION_LIST.remove(conn)
+
+            for data in ROOMS_INFO:
+                for k, v in data.copy().items():
+                    if v != data['room'] and v not in CONNECTION_LIST:
+                        del data[k]
+                if len(data) > 2:
+                    broadcast_data(conn, "The other user left the chat room.".encode(), data)
+
             self.close_connection(conn)
 
     def serve_forever(self):
@@ -166,16 +176,6 @@ class SelectorServer:
 
 def broadcast_data(client, message, room):
     # Do not send the message to master socket and the client who has send us the message
-    # for s in CONNECTION_LIST:
-    #     if s != CONNECTION_LIST[0] and s != client:
-    #         try:
-    #             s.send(message)
-    #         except socket.error as e:
-    #             # broken socket connection may be, chat client pressed ctrl+c for example
-    #             if s in CONNECTION_LIST:
-    #                 CONNECTION_LIST.remove(s)
-    #             s.close()
-    #             print("Error caught: %s", e)
 
     for k in room.keys():
         if k != 'room' and room[k] != client and k != "server":

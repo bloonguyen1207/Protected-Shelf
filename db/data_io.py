@@ -33,8 +33,8 @@ def verify_username(username):
                 return tup[0]
             else:
                 return "None"
-    except psycopg2.ProgrammingError as e:
-        return e
+    except psycopg2.ProgrammingError:
+        return "Internal server error."
 
 
 def register_user(data):
@@ -47,8 +47,8 @@ def register_user(data):
         conn.commit()
         conn.close()
         return "Success"
-    except psycopg2.ProgrammingError as e:
-        return e
+    except psycopg2.ProgrammingError:
+        return "Internal server error."
 
 
 def login_user(data):
@@ -60,8 +60,8 @@ def login_user(data):
         cur.execute(query, info)
         for tup in cur.fetchall():
             return str(tup[0] == data['password'])
-    except psycopg2.ProgrammingError as e:
-        return e
+    except psycopg2.ProgrammingError:
+        return "Internal server error."
 
 
 def conv_req(data):
@@ -78,8 +78,8 @@ def conv_req(data):
         conn.commit()
         conn.close()
         return "Success"
-    except psycopg2.ProgrammingError as e:
-        return e
+    except psycopg2.ProgrammingError:
+        return "Internal server error."
 
 
 def fetch_received_request(data):
@@ -130,14 +130,19 @@ def req_response(data):
 
     auth = authenticate_req(data)
     if auth:
+
+        # If accept then new conversation will be created in the db
         if data['answer'] == "yes" or data['answer'] == "y":
             status = 1
             cur.execute("SELECT sender_id, sender_key FROM Request WHERE r_id=%s", [data['req_id']])
+
             tup = cur.fetchone()
+
             t_id1 = tup[0]
             t1_key = tup[1]
             t_id2 = fetch_id_from_name(data['username'])
             t2_key = data['receiver_key']
+
             new_conv = "INSERT INTO Conversation(t_id1, t_id2, t1_key, t2_key) VALUES (%s, %s, E%s, E%s)"
             info = [t_id1, t_id2, t1_key, t2_key]
             cur.execute(new_conv, info)
@@ -174,8 +179,8 @@ def fetch_conv(data):
             return "None"
         else:
             return ', '.join(l)
-    except psycopg2.ProgrammingError as e:
-        return str(e)
+    except psycopg2.ProgrammingError:
+        return "Internal server error"
 
 
 def authenticate_conv(data):
