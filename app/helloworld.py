@@ -26,11 +26,13 @@ COLORS = {
     'ERROR': 'red',
     'CRITICAL': 'red,bg_white',
 }
-
-CURRENT_USER_DATA = open('appdata/.current_user', 'r').read().split('\n')
-if CURRENT_USER_DATA != ['']:
-    CURRENT_USER = User(CURRENT_USER_DATA[0], CURRENT_USER_DATA[1], CURRENT_USER_DATA[2])
-else:
+try:
+    CURRENT_USER_DATA = open('appdata/.current_user', 'r').read().split('\n')
+    if CURRENT_USER_DATA != ['']:
+        CURRENT_USER = User(CURRENT_USER_DATA[0], CURRENT_USER_DATA[1], CURRENT_USER_DATA[2])
+    else:
+        CURRENT_USER = None
+except FileNotFoundError:
     CURRENT_USER = None
 
 NAME_RULE = re.compile("[a-z0-9_]{4,}")
