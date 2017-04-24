@@ -1,15 +1,21 @@
 import psycopg2
 
 
-# TODO: Build functions to add data
-
-
 def connect_to_db():
+
+    """
+    Open connection to the database
+    Change db here
+    """
+
     conn = psycopg2.connect("host='localhost' dbname='shelf' user='bloo' password='Loading...'")
     return conn
 
 
 def fetch_id_from_name(username):
+
+    """Get user id from username"""
+
     conn = connect_to_db()
     cur = conn.cursor()
     cur.execute("SELECT t_id FROM Trader WHERE username LIKE %s;", [username])
@@ -17,6 +23,9 @@ def fetch_id_from_name(username):
 
 
 def fetch_name_from_id(t_id):
+
+    """Get username from user id"""
+
     conn = connect_to_db()
     cur = conn.cursor()
     cur.execute("SELECT username FROM Trader WHERE t_id=%s;", [t_id])
@@ -24,6 +33,12 @@ def fetch_name_from_id(t_id):
 
 
 def verify_username(username):
+
+    """
+    Check if username existed in the server db
+    Use when register or login
+    """
+
     conn = connect_to_db()
     cur = conn.cursor()
     try:
@@ -38,6 +53,9 @@ def verify_username(username):
 
 
 def register_user(data):
+
+    """Create new user"""
+
     conn = connect_to_db()
     cur = conn.cursor()
     try:
@@ -52,6 +70,9 @@ def register_user(data):
 
 
 def login_user(data):
+
+    """Match username and password with existed data in the database"""
+
     conn = connect_to_db()
     cur = conn.cursor()
     try:
@@ -65,6 +86,12 @@ def login_user(data):
 
 
 def conv_req(data):
+
+    """
+    Create a new request when a user wants to start a new conversation
+    Default status of request is 0, which means UNANSWERED
+    """
+
     conn = connect_to_db()
     cur = conn.cursor()
     try:
@@ -83,6 +110,13 @@ def conv_req(data):
 
 
 def fetch_received_request(data):
+
+    """
+    Fetch requests received by other users
+    Map request status with string for better display
+    Parse the parts into a string to send back to the user
+    """
+
     conn = connect_to_db()
     cur = conn.cursor()
     try:
@@ -109,14 +143,23 @@ def fetch_received_request(data):
 
 
 def authenticate_req(data):
+
+    """
+    Check if the users is the correct receiver of the request
+    Check if request is already answered
+    Will be used when user try to respond to a request
+    """
+
     conn = connect_to_db()
     cur = conn.cursor()
     try:
-        query = "SELECT receiver_id FROM Request WHERE r_id=%s"
+        query = "SELECT receiver_id, status FROM Request WHERE r_id=%s"
         info = [data['req_id']]
         cur.execute(query, info)
-        receiver_id = cur.fetchone()
-        if receiver_id is None:
+        db_data = cur.fetchone()
+        receiver_id = db_data[0]
+        status = db_data[1]
+        if receiver_id is None or status != 0:
             return False
         name = fetch_name_from_id(receiver_id)[0]
         return name == data['username']
@@ -125,6 +168,12 @@ def authenticate_req(data):
 
 
 def req_response(data):
+
+    """
+    Update request status from received data
+    Create a new conversation if the request is accepted
+    """
+
     conn = connect_to_db()
     cur = conn.cursor()
 
@@ -162,6 +211,9 @@ def req_response(data):
 
 
 def fetch_conv(data):
+
+    """Fetch conversations where the user is a participant"""
+
     conn = connect_to_db()
     cur = conn.cursor()
     try:
@@ -184,6 +236,9 @@ def fetch_conv(data):
 
 
 def authenticate_conv(data):
+
+    """Check if user is a part of the conversation"""
+
     conn = connect_to_db()
     cur = conn.cursor()
     query = "SELECT * FROM Conversation WHERE c_id=%s AND (t1_key LIKE E%s OR t2_key LIKE E%s)"
@@ -201,6 +256,12 @@ def authenticate_conv(data):
 
 
 def enter_conv(data):
+
+    """
+    Retrieve data from a conversation when a user want to start chatting
+    The request for this conversation must be accepted in order to enter it
+    """
+
     conn = connect_to_db()
     cur = conn.cursor()
     query = "SELECT * FROM Conversation WHERE c_id=%s"
@@ -222,6 +283,12 @@ def enter_conv(data):
 
 
 def save_messages(data):
+
+    """
+    Save message of sender and receiver to the db 
+    to be fetched later if user wants to
+    """
+
     conn = connect_to_db()
     cur = conn.cursor()
     rid = None
@@ -248,19 +315,3 @@ def save_messages(data):
     except psycopg2.ProgrammingError:
         return "Internal server error."
 
-
-# conn = psycopg2.connect("host='localhost' dbname='shelf' user='bloo' password='Loading...'")
-# conn = connect_to_db()
-# cur = conn.cursor()
-# recv_id = fetch_id_from_name("barney")
-# query = "SELECT r_id, sender_id, status FROM Request WHERE receiver_id=%s"
-# info = [recv_id]
-# cur.execute(query, info)
-# l = []
-# for tup in cur.fetchall():
-#     l.append(' '.join(map(str, tup)))
-#
-# if not l:
-#     print("nah")
-# else:
-#     print(', '.join(l))

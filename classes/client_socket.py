@@ -1,5 +1,4 @@
 # telnet program example
-import codecs
 import socket
 import select
 import sys
@@ -7,11 +6,13 @@ import sys
 import binascii
 
 from app import data_handler
-from classes.user import User
 
 
 class ClientSocket:
     def __init__(self, sock=None):
+
+        """Create the client socket"""
+
         if sock is None:
             self.sock = socket.socket(
                 socket.AF_INET, socket.SOCK_STREAM)
@@ -19,9 +20,11 @@ class ClientSocket:
             self.sock = sock
 
     def open_connection(self, host, port):
+
+        """Open a connection to the server"""
+
         try:
             self.sock.connect((host, port))
-            # print("Connected to remote host. Start sending messages\n Type 'exit.' to disconnect.")
             # self.prompt()
         except socket.error as e:
             print("Cannot connect to host.")
@@ -30,21 +33,36 @@ class ClientSocket:
             sys.exit()
 
     def close_connection(self):
+
+        """Close socket connection"""
+
         try:
             self.sock.close()
         except socket.error as e:
             print("Error closing connection: %s", e)
 
     def send_message(self, message):
+
+        """
+        Send message to the server
+        This only runs once
+        Open -> send -> close
+        """
+
         total_sent = 0
         while total_sent < 2048:
             self.sock.send(message[total_sent:].encode())
             return self.sock.recv(2048).decode()
-            # if sent != 0:
-            #     break
-            # return recv
 
     def in_conversation(self, user, room, key):
+
+        """
+        Get user in a loop to chat with each other
+        Keep exchange data
+        Open -> send & receive
+        Stop when user types 'exit.' or press 'Ctrl + C'
+        """
+
         while 1:
             get_out = False
             socket_list = [sys.stdin, self.sock]
@@ -59,17 +77,19 @@ class ClientSocket:
                         print('\nDisconnected from chat server.')
                         sys.exit()
                     else:
+                        # Load user private key to decrypt message from other user
                         my_key = user.load_key(user.my_key())
 
-                        # Split message with username
+                        # Split actual data with username - done
                         raw_data = data.decode().split(' ')
                         f_name = raw_data[0]
                         raw_message = raw_data[1]
 
+                        # Encrypted message always have the length of 512
+                        # None of the server announcement have same length
                         if len(raw_message) == 512:
                             cipher_message = binascii.unhexlify(raw_message.encode())
                             decrypted = my_key.decrypt(cipher_message)
-                            # print(decrypted)
                             sys.stdout.write(f_name + ' ' + decrypted.decode())
                         else:
                             not_message = data.decode()
@@ -82,6 +102,9 @@ class ClientSocket:
                     raw_msg = sys.stdin.readline()
 
                     if raw_msg != "exit.\n":
+
+                        # Encrypt the message with other user public key
+                        # convert it to a string
                         msg = key.encrypt(raw_msg.encode(), 32)[0]
                         processed_msg = binascii.hexlify(msg).decode()
                         req = data_handler.format_sent_message(user.name, processed_msg, room)
@@ -99,21 +122,3 @@ class ClientSocket:
         sys.stdout.write('>> ')
         sys.stdout.flush()
 
-
-# main function
-if __name__ == "__main__":
-     
-    if len(sys.argv) < 3:
-        print('Usage : python client_socket.py hostname port')
-        sys.exit()
-     
-    host = sys.argv[1]
-    port = int(sys.argv[2])
-     
-    s = ClientSocket()
-     
-    # connect to remote host
-    s.open_connection(host, port)
-     
-    # while 1:
-        # s.in_conversation()

@@ -1,5 +1,7 @@
 import json
 
+# re-format inputs from user into a json-like string to handle in the server
+
 ACTION_DICT = {"verify": 1, "register": 2, "login": 3, "start conv": 4, "fetch received": 5,
                "fetch sent": 6, "req ans": 7, "fetch conv": 8, "enter conv": 9, "send": 10, "recv": 11}
 

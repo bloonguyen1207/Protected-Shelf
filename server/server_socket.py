@@ -6,9 +6,11 @@
 # Eli Bendersky (eliben@gmail.com)
 # This code is in hte public domain
 # -------------------------------------------------------------------------------
-# Bloo added a bit to enable messages broadcasting between clients
-# Will work on this more
-# Wait for it
+# Adapt Eli's code to process data according to data types (json)
+# Create and handle chat rooms
+# Data input output with Postgres
+#
+# Bloo Nguyen
 # -------------------------------------------------------------------------------
 import logging
 import selectors
@@ -26,9 +28,11 @@ ROOMS = []
 ROOMS_INFO = []
 
 
-# TODO: parse data from string -> json -> Done
 class SelectorServer:
     def __init__(self, host, port):
+
+        """Setup the server"""
+
         # Create the main socket that accepts incoming connections and start
         # listening. The socket is nonblocking.
         self.main_socket = socket.socket()
@@ -51,6 +55,9 @@ class SelectorServer:
         self.current_peers = {}
 
     def on_accept(self, sock, mask):
+
+        """Handle new connection from client"""
+
         # This is a handler for the main_socket which is now listening, so we
         # know it's ready to accept a new connection.
         conn, addr = self.main_socket.accept()
@@ -58,20 +65,23 @@ class SelectorServer:
         conn.setblocking(False)
 
         self.current_peers[conn.fileno()] = conn.getpeername()
+
         # Register interest in read events on the new socket, dispatching to
         # self.on_read
         self.selector.register(fileobj=conn, events=selectors.EVENT_READ,
                                data=self.on_read)
         CONNECTION_LIST.append(conn)
-        # broadcast_data(conn, ("[%s:%s] entered room\n" % addr).encode())
 
     def close_connection(self, conn):
+
+        """Close connection when client disconnect from server."""
+
         # We can't ask conn for getpeername() here, because the peer may no
         # longer exist (hung up); instead we use our own mapping of socket
         # fds to peer names - our socket fd is still open.
         peer_name = self.current_peers[conn.fileno()]
         logging.info('closing connection to {0}'.format(peer_name))
-        # broadcast_data(conn, (str(peer_name) + " left.\n").encode())
+
         del self.current_peers[conn.fileno()]
         self.selector.unregister(conn)
         if conn in CONNECTION_LIST:
@@ -79,6 +89,9 @@ class SelectorServer:
         conn.close()
 
     def on_read(self, conn, mask):
+
+        """Handle incoming data from clients"""
+
         # This is a handler for peer sockets - it's called when there's new
         # data.
         try:
@@ -87,16 +100,17 @@ class SelectorServer:
                 peer_name = conn.getpeername()
                 logging.info('got data from {}: {!r}'.format(peer_name, data.decode()))
 
-                # TODO: Separate different types of requests -> see data_handler.py
+                # See data_handler.py for how data is handled
                 json_data = data_handler.parse_json(data.decode())
                 try:
-                    # TODO: Broadcast message first then room later
+                    # Pass data to the handler
                     handled_data = str(data_handler.handle(json_data))
+                    # Send the response back to client
                     conn.send(handled_data.encode())
-                    print(handled_data)
+                    # print(handled_data)
 
                     if json_data['type'] == 9:      # Enter conversation
-
+                        # TODO: fetch last 10 messages when enter conv
                         # Create room if room if 1st time enter conversation
                         # Otherwise just get room data from existed room
 
@@ -114,8 +128,8 @@ class SelectorServer:
                                     if len(data) > 3:
                                         broadcast_data(conn, (json_data['username'] +
                                                               " entered the chat room.").encode(), data)
-                        print(ROOMS)
-                        print(ROOMS_INFO)
+                        # print(ROOMS)
+                        # print(ROOMS_INFO)
                     if json_data['type'] == 10:     # Send message
                         room = {}
                         for data in ROOMS_INFO:
@@ -124,7 +138,7 @@ class SelectorServer:
                         broadcast_data(conn, ("[" + json_data['username'] + "]: " + json_data['content']).encode(), room)
 
                 except socket.error as e:
-                    print(e)
+                    print(e)    # Or if don't want user to see just print 'Internal server error'
             else:
                 if conn in CONNECTION_LIST:
                     CONNECTION_LIST.remove(conn)
@@ -137,7 +151,7 @@ class SelectorServer:
                     if len(data) > 2:
                         broadcast_data(conn, "The other user left the chat room.".encode(), data)
 
-                print(ROOMS_INFO)
+                # print(ROOMS_INFO)
                 self.close_connection(conn)
         except ConnectionResetError:
             if conn in CONNECTION_LIST:
@@ -153,13 +167,15 @@ class SelectorServer:
             self.close_connection(conn)
 
     def serve_forever(self):
+
+        """Run the server"""
+
         last_report_time = time.time()
 
         while True:
             # Wait until some registered socket becomes ready. This will block
             # for 200 ms.
             events = self.selector.select(timeout=0.2)
-            # print()
             # For each new event, dispatch to its handler
             for key, mask in events:
                 handler = key.data
@@ -175,21 +191,31 @@ class SelectorServer:
 
 
 def broadcast_data(client, message, room):
+
+    """Broadcast the message to other users in the room"""
+
     # Do not send the message to master socket and the client who has send us the message
 
     for k in room.keys():
         if k != 'room' and room[k] != client and k != "server":
             try:
                 room[k].send(message)
-            except socket.error as e:
+            except socket.error:
                 # broken socket connection may be, chat client pressed ctrl+c for example
                 if room[k] in CONNECTION_LIST:
                     CONNECTION_LIST.remove(room[k])
                 room[k].close()
                 del room[k]
-                print("Error caught: %s", e)
 
 if __name__ == '__main__':
-    logging.info('starting')
-    server = SelectorServer(host=HOST, port=PORT)
-    server.serve_forever()
+    logging.info('Starting...')
+    logging.info('Press Ctrl + C to disconnect the server.')
+    try:
+        server = SelectorServer(host=HOST, port=PORT)
+        try:
+            server.serve_forever()
+        except KeyboardInterrupt:
+            logging.info("\nServer disconnected.")
+    except socket.error:
+        logging.error("Something went wrong. Please try again later.")
+

@@ -7,10 +7,17 @@ ACTION_DICT = {"verify": 1, "register": 2, "login": 3, "start conv": 4, "fetch r
 
 
 def parse_json(data):
+    """Parse data received from client into json data"""
     return json.loads(data)
 
 
 def handle(data):
+
+    """
+    Handle the data according to its type
+    See ACTION_DICT above for data types
+    """
+
     if data['type'] == ACTION_DICT["verify"]:
         verification = data_io.verify_username(data['username'])
         if verification is None:

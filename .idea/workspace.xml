@@ -2,9 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cb3da928-f99e-4faf-99ce-23cdeeef5223" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/client_socket.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/setup.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/shell_test.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/data_handler.py" afterPath="$PROJECT_DIR$/app/data_handler.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/helloworld.py" afterPath="$PROJECT_DIR$/app/helloworld.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/classes/user.py" afterPath="$PROJECT_DIR$/classes/user.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/data_io.py" afterPath="$PROJECT_DIR$/db/data_io.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/data_handler.py" afterPath="$PROJECT_DIR$/server/data_handler.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/server_socket.py" afterPath="$PROJECT_DIR$/server/server_socket.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,7 +22,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/shelf$server_socket__1_.coverage" NAME="server_socket (1) Coverage Results" MODIFIED="1492676180550" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/server" />
+    <SUITE FILE_PATH="coverage/shelf$server_socket__1_.coverage" NAME="server_socket (1) Coverage Results" MODIFIED="1493017214277" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/server" />
     <SUITE FILE_PATH="coverage/shelf$helloworld.coverage" NAME="helloworld Coverage Results" MODIFIED="1490688745562" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
     <SUITE FILE_PATH="coverage/shelf$shelf_tables.coverage" NAME="shelf_tables Coverage Results" MODIFIED="1491288789344" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/db" />
     <SUITE FILE_PATH="coverage/shelf$client.coverage" NAME="client Coverage Results" MODIFIED="1490846807095" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/sockets" />
@@ -38,111 +45,33 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="server_socket.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/server_socket.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2416">
-              <caret line="139" column="14" lean-forward="true" selection-start-line="139" selection-start-column="14" selection-end-line="139" selection-end-column="14" />
-              <folding>
-                <element signature="e#529#543#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="data_handler.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/data_handler.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="41" column="42" lean-forward="false" selection-start-line="41" selection-start-column="42" selection-end-line="41" selection-end-column="42" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="data_io.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/db/data_io.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
-              <caret line="79" column="8" lean-forward="false" selection-start-line="79" selection-start-column="8" selection-end-line="79" selection-end-column="8" />
-              <folding>
-                <element signature="e#81#189#0" expanded="false" />
-                <element signature="e#230#381#0" expanded="false" />
-                <element signature="e#418#560#0" expanded="false" />
-                <element signature="e#598#944#0" expanded="false" />
-                <element signature="e#976#1336#0" expanded="false" />
-                <element signature="e#1365#1697#0" expanded="false" />
-                <element signature="e#1429#1637#0" expanded="false" />
-                <element signature="e#2516#3152#0" expanded="false" />
-                <element signature="e#5637#6147#0" expanded="false" />
-                <element signature="e#6176#6686#0" expanded="false" />
-                <element signature="e#6718#7616#0" expanded="false" />
-                <element signature="e#7616#7710#0" expanded="false" />
-                <marker date="1492677050555" expanded="true" signature="294:340" ph="SELECT salt Trader" />
-                <marker date="1492677050555" expanded="true" signature="482:523" ph="SELECT id FR... Trader" />
-                <marker date="1492677050555" expanded="true" signature="675:721" ph="SELECT salt Trader" />
-                <marker date="1492677050555" expanded="true" signature="1049:1108" ph="INSERT INTO Trader... " />
-                <marker date="1492677050555" expanded="true" signature="1438:1483" ph="SELECT * FRO... Trader" />
-                <marker date="1492677050555" expanded="true" signature="2095:2171" ph="INSERT INTO Request... " />
-                <marker date="1492677050555" expanded="true" signature="2580:2644" ph="SELECT r_id,... Request" />
-                <marker date="1492677050555" expanded="true" signature="3338:3383" ph="SELECT recei... Request" />
-                <marker date="1492677050555" expanded="true" signature="4015:4070" ph="SELECT sende... Request" />
-                <marker date="1492677050555" expanded="true" signature="4305:4385" ph="INSERT INTO Conversation... " />
-                <marker date="1492677050555" expanded="true" signature="4574:4616" ph="UPDATE Reque... " />
-                <marker date="1492677050555" expanded="true" signature="5010:5043" ph="SELECT * FRO... Conversation" />
-                <marker date="1492677050555" expanded="true" signature="5010:5065" ph="SELECT * FRO... Conversation" />
-                <marker date="1492677050555" expanded="true" signature="5010:5089" ph="SELECT * FRO... Conversation" />
-                <marker date="1492677050555" expanded="true" signature="5010:5124" ph="SELECT * FRO... Conversation" />
-                <marker date="1492677050555" expanded="true" signature="5010:5125" ph="SELECT * FRO... Conversation" />
-                <marker date="1492677050555" expanded="true" signature="5697:5737" ph="SELECT c_id WHERE" />
-                <marker date="1492677050555" expanded="true" signature="5697:5754" ph="SELECT * FRO... Conversation" />
-                <marker date="1492677050555" expanded="true" signature="5697:5778" ph="SELECT * FRO... Conversation" />
-                <marker date="1492677050555" expanded="true" signature="6236:6276" ph="SELECT * FRO... Conversation" />
-                <marker date="1492677050555" expanded="true" signature="6853:6904" ph="SELECT t_id1... Conversation" />
-                <marker date="1492677050555" expanded="true" signature="7089:7159" ph="INSERT INTO message_sent... " />
-                <marker date="1492677050555" expanded="true" signature="7300:7374" ph="INSERT INTO message_received... " />
-                <marker date="1492677050555" expanded="true" signature="7810:7874" ph="SELECT r_id,... Request" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="client_socket.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sockets/client_socket.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="109" column="0" lean-forward="false" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
-              <folding>
-                <element signature="e#25#38#0" expanded="true" />
-                <element signature="e#1180#1195#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="helloworld.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="helloworld.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/helloworld.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1060">
-              <caret line="131" column="90" lean-forward="true" selection-start-line="131" selection-start-column="90" selection-end-line="131" selection-end-column="90" />
+            <state relative-caret-position="301">
+              <caret line="214" column="3" lean-forward="true" selection-start-line="214" selection-start-column="3" selection-end-line="214" selection-end-column="3" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
-                <element signature="e#1123#1838#0" expanded="false" />
-                <element signature="e#1894#2048#0" expanded="false" />
-                <element signature="e#2119#3549#0" expanded="false" />
-                <element signature="e#2542#3466#0" expanded="false" />
-                <element signature="e#3610#4616#0" expanded="false" />
-                <element signature="e#4662#4839#0" expanded="false" />
-                <element signature="e#4891#5191#0" expanded="false" />
-                <element signature="e#5338#6771#0" expanded="false" />
-                <element signature="e#6845#7103#0" expanded="false" />
-                <element signature="e#7196#7992#0" expanded="false" />
-                <element signature="e#7893#7992#0" expanded="false" />
-                <element signature="e#8084#9672#0" expanded="false" />
-                <element signature="e#9755#10541#0" expanded="false" />
+                <element signature="e#1095#1810#0" expanded="false" />
+                <element signature="e#1867#2080#0" expanded="false" />
+                <element signature="e#3829#5093#0" expanded="false" />
+                <element signature="e#5170#5403#0" expanded="false" />
+                <element signature="e#5483#5813#0" expanded="false" />
+                <element signature="e#7576#7834#0" expanded="false" />
+                <element signature="e#8615#8714#0" expanded="false" />
+                <element signature="e#11351#12889#0" expanded="false" />
+                <element signature="e#12918#13170#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="20">
+              <caret line="1" column="16" lean-forward="false" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -162,6 +91,7 @@
       <find>reg</find>
       <find>None</find>
       <find>str</find>
+      <find>e</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -176,16 +106,18 @@
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/f55e89ba-874f-404a-866d-18b1736efe72/console.sql" />
         <option value="$PROJECT_DIR$/db/shelf_tables.py" />
         <option value="$PROJECT_DIR$/appdata/.current_user" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/sockets/server_socket.py" />
         <option value="$PROJECT_DIR$/db/create_tables.sql" />
-        <option value="$PROJECT_DIR$/app/data_handler.py" />
-        <option value="$PROJECT_DIR$/classes/user.py" />
-        <option value="$PROJECT_DIR$/server/data_handler.py" />
         <option value="$PROJECT_DIR$/sockets/client_socket.py" />
-        <option value="$PROJECT_DIR$/app/helloworld.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/server/data_handler.py" />
         <option value="$PROJECT_DIR$/server/server_socket.py" />
         <option value="$PROJECT_DIR$/db/data_io.py" />
+        <option value="$PROJECT_DIR$/setup.py" />
+        <option value="$PROJECT_DIR$/classes/client_socket.py" />
+        <option value="$PROJECT_DIR$/app/data_handler.py" />
+        <option value="$PROJECT_DIR$/classes/user.py" />
+        <option value="$PROJECT_DIR$/app/helloworld.py" />
       </list>
     </option>
   </component>
@@ -196,10 +128,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="40" />
-    <option name="y" value="-11" />
-    <option name="width" value="1327" />
-    <option name="height" value="780" />
+    <option name="x" value="41" />
+    <option name="y" value="-4" />
+    <option name="width" value="1325" />
+    <option name="height" value="772" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -216,8 +148,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -227,20 +157,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="shelf" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shelf" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shelf" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sockets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -268,54 +184,14 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="db" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shelf" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shelf" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="classes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shelf" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shelf" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="appdata" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shelf" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shelf" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -327,7 +203,7 @@
     <property name="js.eslint.eslintPackage" value="" />
     <property name="js-jscs-nodeInterpreter" value="/usr/bin/node" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="PostgreSQL" />
-    <property name="add_unversioned_files" value="$PROJECT_DIR$/appdata/keystore/otus_bloo-VPCEH28FG/public.key&#10;/home/bloo/Works/Projects/shelf/appdata/keystore/fibb_bloo-VPCEH28FG/public.key&#10;/home/bloo/Works/Projects/shelf/appdata/.current_user" />
+    <property name="add_unversioned_files" value="$PROJECT_DIR$/appdata/keystore/otus_bloo-VPCEH28FG/public.key&#10;/home/bloo/Works/Projects/shelf/classes/client_socket.py&#10;/home/bloo/Works/Projects/shelf/appdata/keystore/fibb_bloo-VPCEH28FG/public.key&#10;/home/bloo/Works/Projects/shelf/appdata/.current_user" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -687,29 +563,39 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="40" y="-11" width="1327" height="780" extended-state="6" />
+    <frame x="41" y="-4" width="1325" height="772" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2853792" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29007035" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32886904" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32738096" sideWeight="0.51055515" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32886904" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32886904" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36607143" sideWeight="0.49413604" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20089285" sideWeight="0.49413604" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32738096" sideWeight="0.48944488" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39880952" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32994527" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32886904" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32738096" sideWeight="0.51055515" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32886904" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32886904" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32738096" sideWeight="0.48944488" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32886904" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29007035" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32886904" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32994527" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -720,25 +606,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="4" />
+      <option name="time" value="5" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/sockets/server_socket.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="49" lean-forward="false" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sockets/server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1404">
-          <caret line="78" column="0" lean-forward="false" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sockets/client.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="468">
@@ -944,13 +816,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/appdata/keystore/otus_bloo-VPCEH28FG/private.key">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-134">
@@ -1021,69 +886,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/classes/user.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-321">
-          <caret line="27" column="34" lean-forward="false" selection-start-line="27" selection-start-column="34" selection-end-line="27" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/data_handler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="63" column="54" lean-forward="false" selection-start-line="63" selection-start-column="54" selection-end-line="63" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sockets/client_socket.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="109" column="0" lean-forward="false" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+        <state relative-caret-position="1500">
+          <caret line="83" column="44" lean-forward="false" selection-start-line="83" selection-start-column="44" selection-end-line="83" selection-end-column="44" />
           <folding>
-            <element signature="e#25#38#0" expanded="true" />
-            <element signature="e#1180#1195#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/helloworld.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1060">
-          <caret line="131" column="90" lean-forward="true" selection-start-line="131" selection-start-column="90" selection-end-line="131" selection-end-column="90" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-            <element signature="e#1123#1838#0" expanded="false" />
-            <element signature="e#1894#2048#0" expanded="false" />
-            <element signature="e#2119#3549#0" expanded="false" />
-            <element signature="e#2542#3466#0" expanded="false" />
-            <element signature="e#3610#4616#0" expanded="false" />
-            <element signature="e#4662#4839#0" expanded="false" />
-            <element signature="e#4891#5191#0" expanded="false" />
-            <element signature="e#5338#6771#0" expanded="false" />
-            <element signature="e#6845#7103#0" expanded="false" />
-            <element signature="e#7196#7992#0" expanded="false" />
-            <element signature="e#7893#7992#0" expanded="false" />
-            <element signature="e#8084#9672#0" expanded="false" />
-            <element signature="e#9755#10541#0" expanded="false" />
+            <element signature="e#25#38#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/server_socket.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2416">
-          <caret line="139" column="14" lean-forward="true" selection-start-line="139" selection-start-column="14" selection-end-line="139" selection-end-column="14" />
+        <state relative-caret-position="421">
+          <caret line="75" column="37" lean-forward="false" selection-start-line="75" selection-start-column="37" selection-end-line="75" selection-end-column="37" />
           <folding>
-            <element signature="e#529#543#0" expanded="true" />
+            <element signature="e#934#1886#0" expanded="false" />
+            <element signature="e#1934#2577#0" expanded="false" />
+            <element signature="e#2626#3201#0" expanded="false" />
+            <element signature="e#3247#6787#0" expanded="false" />
+            <element signature="e#6827#7581#0" expanded="false" />
+            <element signature="e#7632#8205#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="7" column="15" lean-forward="true" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/data_handler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="41" column="42" lean-forward="false" selection-start-line="41" selection-start-column="42" selection-end-line="41" selection-end-column="42" />
+        <state relative-caret-position="340">
+          <caret line="17" column="30" lean-forward="true" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
@@ -1092,45 +931,104 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/db/data_io.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="79" column="8" lean-forward="false" selection-start-line="79" selection-start-column="8" selection-end-line="79" selection-end-column="8" />
+        <state relative-caret-position="1707">
+          <caret line="319" column="0" lean-forward="false" selection-start-line="319" selection-start-column="0" selection-end-line="319" selection-end-column="0" />
           <folding>
-            <element signature="e#81#189#0" expanded="false" />
-            <element signature="e#230#381#0" expanded="false" />
-            <element signature="e#418#560#0" expanded="false" />
-            <element signature="e#598#944#0" expanded="false" />
-            <element signature="e#976#1336#0" expanded="false" />
-            <element signature="e#1365#1697#0" expanded="false" />
-            <element signature="e#1429#1637#0" expanded="false" />
-            <element signature="e#2516#3152#0" expanded="false" />
-            <element signature="e#5637#6147#0" expanded="false" />
-            <element signature="e#6176#6686#0" expanded="false" />
-            <element signature="e#6718#7616#0" expanded="false" />
-            <element signature="e#7616#7710#0" expanded="false" />
-            <marker date="1492677050555" expanded="true" signature="294:340" ph="SELECT salt Trader" />
-            <marker date="1492677050555" expanded="true" signature="482:523" ph="SELECT id FR... Trader" />
-            <marker date="1492677050555" expanded="true" signature="675:721" ph="SELECT salt Trader" />
-            <marker date="1492677050555" expanded="true" signature="1049:1108" ph="INSERT INTO Trader... " />
-            <marker date="1492677050555" expanded="true" signature="1438:1483" ph="SELECT * FRO... Trader" />
-            <marker date="1492677050555" expanded="true" signature="2095:2171" ph="INSERT INTO Request... " />
-            <marker date="1492677050555" expanded="true" signature="2580:2644" ph="SELECT r_id,... Request" />
-            <marker date="1492677050555" expanded="true" signature="3338:3383" ph="SELECT recei... Request" />
-            <marker date="1492677050555" expanded="true" signature="4015:4070" ph="SELECT sende... Request" />
-            <marker date="1492677050555" expanded="true" signature="4305:4385" ph="INSERT INTO Conversation... " />
-            <marker date="1492677050555" expanded="true" signature="4574:4616" ph="UPDATE Reque... " />
-            <marker date="1492677050555" expanded="true" signature="5010:5043" ph="SELECT * FRO... Conversation" />
-            <marker date="1492677050555" expanded="true" signature="5010:5065" ph="SELECT * FRO... Conversation" />
-            <marker date="1492677050555" expanded="true" signature="5010:5089" ph="SELECT * FRO... Conversation" />
-            <marker date="1492677050555" expanded="true" signature="5010:5124" ph="SELECT * FRO... Conversation" />
-            <marker date="1492677050555" expanded="true" signature="5010:5125" ph="SELECT * FRO... Conversation" />
-            <marker date="1492677050555" expanded="true" signature="5697:5737" ph="SELECT c_id WHERE" />
-            <marker date="1492677050555" expanded="true" signature="5697:5754" ph="SELECT * FRO... Conversation" />
-            <marker date="1492677050555" expanded="true" signature="5697:5778" ph="SELECT * FRO... Conversation" />
-            <marker date="1492677050555" expanded="true" signature="6236:6276" ph="SELECT * FRO... Conversation" />
-            <marker date="1492677050555" expanded="true" signature="6853:6904" ph="SELECT t_id1... Conversation" />
-            <marker date="1492677050555" expanded="true" signature="7089:7159" ph="INSERT INTO message_sent... " />
-            <marker date="1492677050555" expanded="true" signature="7300:7374" ph="INSERT INTO message_received... " />
-            <marker date="1492677050555" expanded="true" signature="7810:7874" ph="SELECT r_id,... Request" />
+            <element signature="e#304#492#0" expanded="false" />
+            <element signature="e#530#709#0" expanded="false" />
+            <element signature="e#748#1207#0" expanded="false" />
+            <element signature="e#1240#1645#0" expanded="false" />
+            <element signature="e#1675#2098#0" expanded="false" />
+            <element signature="e#1812#2020#0" expanded="false" />
+            <element signature="e#2126#2960#0" expanded="false" />
+            <element signature="e#2126#2267#1" expanded="false" />
+            <element signature="e#3002#3953#0" expanded="false" />
+            <element signature="e#5986#6764#0" expanded="false" />
+            <element signature="e#6801#7366#0" expanded="false" />
+            <element signature="e#7396#8072#0" expanded="false" />
+            <marker date="1493016848694" expanded="true" signature="405:451" ph="SELECT salt Trader" />
+            <marker date="1493016848694" expanded="true" signature="631:672" ph="SELECT id FR... Trader" />
+            <marker date="1493016848694" expanded="true" signature="920:966" ph="SELECT salt Trader" />
+            <marker date="1493016848694" expanded="true" signature="1340:1399" ph="INSERT INTO Trader... " />
+            <marker date="1493016848694" expanded="true" signature="1821:1866" ph="SELECT * FRO... Trader" />
+            <marker date="1493016848694" expanded="true" signature="2644:2720" ph="INSERT INTO Request... " />
+            <marker date="1493016848694" expanded="true" signature="3303:3367" ph="SELECT r_id,... Request" />
+            <marker date="1493016848694" expanded="true" signature="4237:4290" ph="SELECT recei... Request" />
+            <marker date="1493016848694" expanded="true" signature="5114:5169" ph="SELECT sende... Request" />
+            <marker date="1493016848694" expanded="true" signature="5404:5484" ph="INSERT INTO Conversation... " />
+            <marker date="1493016848694" expanded="true" signature="5673:5715" ph="UPDATE Reque... " />
+            <marker date="1493016848694" expanded="true" signature="6173:6206" ph="SELECT * FRO... Conversation" />
+            <marker date="1493016848694" expanded="true" signature="6173:6228" ph="SELECT * FRO... Conversation" />
+            <marker date="1493016848694" expanded="true" signature="6173:6252" ph="SELECT * FRO... Conversation" />
+            <marker date="1493016848694" expanded="true" signature="6173:6287" ph="SELECT * FRO... Conversation" />
+            <marker date="1493016848694" expanded="true" signature="6173:6288" ph="SELECT * FRO... Conversation" />
+            <marker date="1493016848694" expanded="true" signature="6916:6956" ph="SELECT c_id WHERE" />
+            <marker date="1493016848694" expanded="true" signature="6916:6973" ph="SELECT * FRO... Conversation" />
+            <marker date="1493016848694" expanded="true" signature="6916:6997" ph="SELECT * FRO... Conversation" />
+            <marker date="1493016848694" expanded="true" signature="7622:7662" ph="SELECT * FRO... Conversation" />
+            <marker date="1493016848694" expanded="true" signature="8349:8400" ph="SELECT t_id1... Conversation" />
+            <marker date="1493016848694" expanded="true" signature="8585:8655" ph="INSERT INTO message_sent... " />
+            <marker date="1493016848694" expanded="true" signature="8796:8870" ph="INSERT INTO message_received... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classes/client_socket.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="123" column="0" lean-forward="true" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
+          <folding>
+            <element signature="e#137#3922#0" expanded="false" />
+            <element signature="e#177#367#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/data_handler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="2" column="76" lean-forward="false" selection-start-line="2" selection-start-column="76" selection-end-line="2" selection-end-column="76" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20">
+          <caret line="1" column="16" lean-forward="false" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classes/user.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="281">
+          <caret line="65" column="21" lean-forward="false" selection-start-line="65" selection-start-column="21" selection-end-line="65" selection-end-column="21" />
+          <folding>
+            <element signature="e#511#708#0" expanded="false" />
+            <element signature="e#742#1613#0" expanded="false" />
+            <element signature="e#1649#1895#0" expanded="false" />
+            <element signature="e#1928#2176#0" expanded="false" />
+            <element signature="e#2227#2266#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/helloworld.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="301">
+          <caret line="214" column="3" lean-forward="true" selection-start-line="214" selection-start-column="3" selection-end-line="214" selection-end-column="3" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#1095#1810#0" expanded="false" />
+            <element signature="e#1867#2080#0" expanded="false" />
+            <element signature="e#3829#5093#0" expanded="false" />
+            <element signature="e#5170#5403#0" expanded="false" />
+            <element signature="e#5483#5813#0" expanded="false" />
+            <element signature="e#7576#7834#0" expanded="false" />
+            <element signature="e#8615#8714#0" expanded="false" />
+            <element signature="e#11351#12889#0" expanded="false" />
+            <element signature="e#12918#13170#0" expanded="false" />
           </folding>
         </state>
       </provider>

@@ -3,14 +3,14 @@ import signal
 from cement.core.exc import CaughtSignal
 from cement.core.foundation import CementApp
 from cement.core.controller import CementBaseController, expose
+from cement.ext.ext_tabulate import tabulate
 from app import data_handler
-from sockets.client_socket import ClientSocket
+from classes.client_socket import ClientSocket
 from classes.user import User
 import bcrypt
 import getpass
 import re
 import sys
-import tabulate
 
 VERSION = "0.0.1"
 
@@ -41,7 +41,6 @@ SIGNALS = [signal.SIGTERM, signal.SIGINT, signal.SIGHUP]
 
 
 # define any hook functions here
-# Bloo: No idea wtf is this
 def my_cleanup_hook(app):
     pass
 
@@ -66,13 +65,19 @@ class BaseController(CementBaseController):
 
     @expose(hide=True)
     def default(self):
+
+        """Run 'python3 -m app.helloworld' to get here"""
+
         self.app.log.info('Inside BaseController.default()')
         print("Welcome to " + BANNER)
         print("Type 'shelf --help' to see available commands.")
 
     # New user sign up
-    @expose()
+    @expose(help="Create a new account")
     def register(self):
+
+        """Create new user"""
+
         client = ClientSocket()
         client.open_connection(HOST, PORT)
 
@@ -81,14 +86,17 @@ class BaseController(CementBaseController):
         print("Username must be at least 4 chars, only including alphanumeric & underscore")
 
         username = input("Type your name (any name you like): ").strip()
-        # TODO: why tf is this always receive None - fixed
+
+        # Username must matched with the name rules
         if NAME_RULE.fullmatch(username) is not None:
+            # Data will be sent and processed on the server
             request = data_handler.format_username(username)
             response = client.send_message(request)
 
             if response != "None":
                 self.app.log.warning("Username already existed. Please use another one.")
-            else:
+
+            else:   # If username is not duplicated, proceed
                 salt = bcrypt.gensalt().decode()
                 psw = getpass.getpass("Type your password: ")
                 confirm_psw = getpass.getpass("Do it again (just making sure you're not forgetting it): ")
@@ -106,40 +114,60 @@ class BaseController(CementBaseController):
             self.app.log.error("Username invalid. Try again.")
 
     # Activate prompt
-    @expose()
+    @expose(help="Log in to your account")
     def login(self):
+
+        """
+        Authenticate username and password
+        Set current user if all matched
+        """
+
         self.app.log.info("Inside BaseController.login()")
         client = ClientSocket()
         client.open_connection(HOST, PORT)
 
         username = input("Username: ").strip()
+
+        # Username must matched with the name rules
         if NAME_RULE.fullmatch(username) is not None:
             psw = getpass.getpass("Password: ")
+
             request = data_handler.format_username(username)
             response = client.send_message(request)
+
+            # If user existed, proceed
             if response != "None":
                 user = User(username, response, psw)
                 request = data_handler.format_login(user)
                 auth = client.send_message(request)
+
                 if auth == "True":
                     user.gen_key()
                     user.set_current_user()
                     self.app.log.info("Logged in successfully as " + user.name)
-                else:
+
+                else:   # Wrong password
                     self.app.log.error("Username or password is incorrect. Please try again.")
-            else:
+
+            else:   # Username not registered in db
                 self.app.log.error("Username or password is incorrect. Please try again.")
 
-    @expose()
+    @expose(help="Log out of your account")
     def logout(self):
+
+        """Remove data from local current user file"""
+
         self.app.log.info("Inside BaseController.logout()")
         f = open("appdata/.current_user", "w")
         f.write("")
         f.close()
         self.app.log.info("Logged out.")
 
-    @expose()
+    @expose(help="See the current user")
     def current_user(self):
+
+        """Display current user"""
+
         self.app.log.info("Inside BaseController.current_user()")
         if CURRENT_USER is None:
             self.app.log.info("No user is currently logged in.")
@@ -147,9 +175,14 @@ class BaseController(CementBaseController):
         else:
             self.app.log.info(CURRENT_USER.name + " is the current user.")
 
-    # TODO: Check if request existed. - is this needed?
     @expose(help="Send request to start a new conversation")
     def start_conv(self):
+
+        """
+        Send a request to start a conversation with another user
+        Conversation won't be created until the request is accepted
+        """
+
         self.app.log.info("Inside BaseController.start_conv()")
         if CURRENT_USER is not None:
             if len(sys.argv) < 3:
@@ -180,6 +213,9 @@ class BaseController(CementBaseController):
 
     @expose(help="Fetch your public key")
     def my_key(self):
+
+        """Display user's public key"""
+
         self.app.log.info("Inside BaseController.my_key()")
         if CURRENT_USER is not None:
             print(CURRENT_USER.publickey())
@@ -189,6 +225,9 @@ class BaseController(CementBaseController):
 
     @expose(help="Fetch received invitations from others")
     def recv_req(self):
+
+        """Display under table format incoming requests fetched from the server"""
+
         self.app.log.info("Inside BaseController.received_request()")
         if CURRENT_USER is not None:
             client = ClientSocket()
@@ -203,13 +242,18 @@ class BaseController(CementBaseController):
                 table_data = []
                 for i in reqs:
                     table_data.append(i.split(' '))
-                print(tabulate.tabulate(table_data, ["ID", "Sender", "Status"], tablefmt="psql"))
+                print(tabulate(table_data, ["ID", "Sender", "Status"], tablefmt="psql"))
         else:
             self.app.log.error("You have not logged in yet.")
             print("Type 'shelf login' to login.")
 
     @expose(help="Accept or decline pending invitations")
     def request(self):
+
+        """
+        Answer incoming requests
+        Conversation will be created if request is accepted
+        """
 
         self.app.log.info("Inside BaseController.request()")
         if len(sys.argv) < 3 or len(sys.argv) < 5:
@@ -241,6 +285,12 @@ class BaseController(CementBaseController):
 
     @expose(help="Fetch available conversations")
     def my_conv(self):
+
+        """
+        Display under table format available conversations 
+        of the user fetched from the server
+        """
+
         self.app.log.info("Inside BaseController.my_conv()")
         if CURRENT_USER is not None:
             client = ClientSocket()
@@ -255,13 +305,16 @@ class BaseController(CementBaseController):
                 table_data = []
                 for i in reqs:
                     table_data.append(i.split(' '))
-                print(tabulate.tabulate(table_data, ["ID", "User 1", "User 2"], tablefmt="psql"))
+                print(tabulate(table_data, ["ID", "User 1", "User 2"], tablefmt="psql"))
         else:
             self.app.log.error("You have not logged in yet.")
             print("Type 'shelf login' to login.")
 
     @expose(help="Send request to start a new conversation")
     def enter_conv(self):
+
+        """Enter a conversation to exchange messages"""
+
         self.app.log.info("Inside BaseController.enter_conv()")
         if CURRENT_USER is not None:
             if len(sys.argv) < 3:
@@ -283,6 +336,9 @@ class BaseController(CementBaseController):
                         if k != "room" and k != CURRENT_USER.name + "_key":
                             f_key = User.load_key(conv_data[k])
 
+                    print("Connected. You can now start sending messages")
+                    print("Type 'exit.' or press 'Ctrl + C' to disconnect.")
+
                     sys.stdout.write('>> ')
                     sys.stdout.flush()
                     client.in_conversation(CURRENT_USER, conv_data['room'], f_key)
@@ -303,14 +359,19 @@ class App(CementApp):
         base_controller = 'base'
         handlers = [BaseController]
 
-with App() as app:
-    # log stuff
-    app.log.debug("About to run " + BANNER)
-    # run the application
-    try:
-        app.run()
-    except CaughtSignal as e:
-        if e.signum == signal.SIGTERM:
-            print("\nCaught SIGTERM...")
-        elif e.signum == signal.SIGINT:
-            print("\nExiting...")
+
+def main():
+    with App() as app:
+        # log stuff
+        app.log.debug("About to run " + BANNER)
+        # run the application
+        try:
+            app.run()
+        except CaughtSignal as e:
+            if e.signum == signal.SIGTERM:
+                print("\nCaught SIGTERM...")
+            elif e.signum == signal.SIGINT:
+                print("\nExiting...")
+
+if __name__ == '__main__':
+    main()
