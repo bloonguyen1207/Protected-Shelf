@@ -7,7 +7,8 @@ DEPENDENCIES = [
     "cement",
     "colorlog",
     "psycopg2",
-    "pycrypto"
+    "pycrypto",
+    "tabulate"
 ]
 
 for i in DEPENDENCIES:
