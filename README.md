@@ -21,7 +21,7 @@
 
 ## Getting started ##
 
-*Note*: From here on, the word `shelf` is short of `python3 -m app.helloworld`
+***Note***: From here on, the word `shelf` is short of `python3 -m app.helloworld`
 
 - After finish the setup, you can now run the client app using this command `shelf`
 
