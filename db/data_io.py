@@ -8,7 +8,7 @@ def connect_to_db():
     Change db here
     """
 
-    conn = psycopg2.connect("host='localhost' dbname='shelf' user='postgres' password='postgres'")
+    conn = psycopg2.connect("host='localhost' dbname='shelf' user='bloo' password='Loading...'")
     return conn
 
 
@@ -105,6 +105,39 @@ def conv_req(data):
         conn.commit()
         conn.close()
         return "Success"
+    except psycopg2.ProgrammingError:
+        return "Internal server error."
+
+
+def fetch_sent_request(data):
+
+    """
+    Fetch requests sent by user
+    Map request status with string for better display
+    Parse the parts into a string to send back to the user
+    """
+
+    conn = connect_to_db()
+    cur = conn.cursor()
+    try:
+        sender_id = fetch_id_from_name(data['username'])
+        query = "SELECT r_id, receiver_id, status FROM Request WHERE sender_id=%s AND sender_key LIKE E%s"
+        info = [sender_id, data['sender_key']]
+        cur.execute(query, info)
+        l = []
+        for tup in cur.fetchall():
+            sender_name = fetch_name_from_id(tup[1])[0]
+            if tup[2] == 0:
+                status = "UNANSWERED"
+            elif tup[2] == 1:
+                status = "ACCEPTED"
+            else:
+                status = "DECLINED"
+            l.append(' '.join([str(tup[0]), sender_name, status]))
+        if not l:
+            return "None"
+        else:
+            return ', '.join(l)
     except psycopg2.ProgrammingError:
         return "Internal server error."
 

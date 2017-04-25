@@ -225,6 +225,27 @@ class BaseController(CementBaseController):
             self.app.log.error("You have not logged in yet.")
             print("Type 'shelf login' to login.")
 
+    @expose(help="Fetch invitations you sent to others")
+    def sent_req(self):
+
+        """Display under table format sent requests fetched from the server"""
+
+        self.app.log.info("Inside BaseController.sent_request()")
+        if CURRENT_USER is not None:
+            client = ClientSocket()
+            client.open_connection(HOST, PORT)
+
+            request = data_handler.format_sent_request(CURRENT_USER)
+            response = client.send_message(request)
+            if response == "None":
+                print("You have not sent any request.")
+            else:
+                reqs = response.split(", ")
+                table_data = []
+                for i in reqs:
+                    table_data.append(i.split(' '))
+                print(tabulate(table_data, ["ID", "Receiver", "Status"], tablefmt="psql"))
+
     @expose(help="Fetch received invitations from others")
     def recv_req(self):
 

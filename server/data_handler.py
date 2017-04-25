@@ -36,6 +36,12 @@ def handle(data):
             return "None"
         else:
             return reqs
+    elif data['type'] == ACTION_DICT["fetch sent"]:
+        reqs = data_io.fetch_sent_request(data)
+        if reqs is None:
+            return "None"
+        else:
+            return reqs
     elif data['type'] == ACTION_DICT["req ans"]:
         return str(data_io.req_response(data))
     elif data['type'] == ACTION_DICT["fetch conv"]:
