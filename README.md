@@ -15,14 +15,12 @@ This project is called **Protected Shelf**. It is an end-to-end encryption termi
 
 ## Setup ##
 - Go to project's folder
+- Run ```python3 setup.py```
 ### Server ###
 - Open Postgres and create a database name ```shelf```
 - Open and run ```CREATE_TABLE.sql``` inside your database
 - Go to ```data_io.py``` and replace your **dbname, username and password** into the first function
 - Start the server: ```python3 -m server.server_socket```
-
-### Client ###
-- Run ```python3 setup.py```
 
 ### Can this thing run on LAN? ###
 - Yes, yes it can. 
