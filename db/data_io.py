@@ -59,7 +59,7 @@ def register_user(data):
     conn = connect_to_db()
     cur = conn.cursor()
     try:
-        query = "INSERT INTO Trader(username, salt, psw) VALUES (%S, %S, %S)"
+        query = "INSERT INTO Trader(username, salt, psw) VALUES (%s, %s, %s)"
         info = [data['username'], data['salt'], data['password']]
         cur.execute(query, info)
         conn.commit()
