@@ -147,6 +147,7 @@ class BaseController(CementBaseController):
                     user.gen_key()
                     user.set_current_user()
                     self.app.log.info("Logged in successfully as " + user.name)
+                    CURRENT_USER = user
 
                 else:   # Wrong password
                     self.app.log.error("Username or password is incorrect. Please try again.")
@@ -163,6 +164,7 @@ class BaseController(CementBaseController):
         f = open("appdata/.current_user", "w")
         f.write("")
         f.close()
+        CURRENT_USER = None
         self.app.log.info("Logged out.")
 
     @expose(help="See the current user")
@@ -290,7 +292,7 @@ class BaseController(CementBaseController):
 
                     request = data_handler.format_answer(CURRENT_USER,
                                                          self.app.pargs.request,
-                                                         client_res)
+                                                         client_res.lower())
                     response = client.send_message(request)
                     if response == "True" and client_res.lower() == 'y' or client_res.lower() == 'yes':
                         self.app.log.info("Conversation request accepted.")
