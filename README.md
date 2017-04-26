@@ -26,7 +26,7 @@ This project is called **Protected Shelf**. It is an end-to-end encryption termi
 
 ### Can this thing run on LAN? ###
 - Yes, yes it can. 
-- To run on LAN, you just need to replace the ```HOST = 'localhost'``` variable in ```server/server_socket.py``` and ```**app/helloworld.py``` with ```HOST = '[your ip]'``` 
+- To run on LAN, you just need to replace the ```HOST = 'localhost'``` variable in ```server/server_socket.py``` and ```app/helloworld.py``` with ```HOST = '[your ip]'``` 
 
 ---
 
