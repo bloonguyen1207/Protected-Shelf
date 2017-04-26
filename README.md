@@ -10,7 +10,7 @@ This project is called **Protected Shelf**. It is an end-to-end encryption termi
 ## Requirements ##
 - Linux OS
 - Python3 with pip installed
-- Postgres
+- Postgres with pgAdmin
 ---
 
 ## Setup ##
