@@ -196,7 +196,7 @@ class BaseController(CementBaseController):
                 client.open_connection(HOST, PORT)
 
                 target = self.app.pargs.user
-                if NAME_RULE.fullmatch(target) is not None:
+                if NAME_RULE.fullmatch(str(target)) is not None:
                     request = data_handler.format_username(target)
                     response = client.send_message(request)
                     if response == "None":
@@ -210,7 +210,7 @@ class BaseController(CementBaseController):
                         else:
                             print("Something went wrong. Please try again later.")
                 else:
-                    self.app.log.error("Invalid username.")
+                    self.app.log.error("Invalid username or invalid argument.")
         else:
             self.app.log.error("Please login before starting a conversation.")
             print("Type 'shelf login' to login.")
@@ -247,6 +247,9 @@ class BaseController(CementBaseController):
                 for i in reqs:
                     table_data.append(i.split(' '))
                 print(tabulate(table_data, ["ID", "Receiver", "Status"], tablefmt="psql"))
+        else:
+            self.app.log.error("You have not logged in yet.")
+            print("Type 'shelf login' to login.")
 
     @expose(help="Fetch received invitations from others")
     def recv_req(self):
@@ -335,7 +338,7 @@ class BaseController(CementBaseController):
             self.app.log.error("You have not logged in yet.")
             print("Type 'shelf login' to login.")
 
-    @expose(help="Send request to start a new conversation")
+    @expose(help="Enter a conversation")
     def enter_conv(self):
 
         """Enter a conversation to exchange messages"""
@@ -347,26 +350,29 @@ class BaseController(CementBaseController):
             else:
                 client = ClientSocket()
                 client.open_connection(HOST, PORT)
+                conv_id = self.app.pargs.conv
+                if conv_id.isdigit():
+                    request = data_handler.format_enter_conv(CURRENT_USER,
+                                                             self.app.pargs.conv)
+                    response = client.send_message(request)
+                    if response == "False":
+                        self.app.log.error("Something went wrong. Make sure you entered the correct conversation id.")
+                        print("Type 'shelf my-conv' to see available conversations")
+                    else:
+                        f_key = None
+                        conv_data = data_handler.parse_json(response.replace("'", '"'))
+                        for k in conv_data.keys():
+                            if k != "room" and k != CURRENT_USER.name + "_key":
+                                f_key = User.load_key(conv_data[k])
 
-                request = data_handler.format_enter_conv(CURRENT_USER,
-                                                         self.app.pargs.conv)
-                response = client.send_message(request)
-                if response == "False":
-                    self.app.log.error("Something went wrong. Make sure you entered the correct conversation id.")
-                    print("Type 'shelf my-conv' to see available conversations")
+                        print("Connected. You can now start sending messages")
+                        print("Type 'exit.' or press 'Ctrl + C' to disconnect.")
+
+                        sys.stdout.write('>> ')
+                        sys.stdout.flush()
+                        client.in_conversation(CURRENT_USER, conv_data['room'], f_key)
                 else:
-                    f_key = None
-                    conv_data = data_handler.parse_json(response.replace("'", '"'))
-                    for k in conv_data.keys():
-                        if k != "room" and k != CURRENT_USER.name + "_key":
-                            f_key = User.load_key(conv_data[k])
-
-                    print("Connected. You can now start sending messages")
-                    print("Type 'exit.' or press 'Ctrl + C' to disconnect.")
-
-                    sys.stdout.write('>> ')
-                    sys.stdout.flush()
-                    client.in_conversation(CURRENT_USER, conv_data['room'], f_key)
+                    self.app.log.error("Invalid conversation ID.")
         else:
             self.app.log.error("Please login before starting a conversation.")
             print("Type 'shelf login' to login.")
