@@ -197,18 +197,21 @@ class BaseController(CementBaseController):
 
                 target = self.app.pargs.user
                 if NAME_RULE.fullmatch(str(target)) is not None:
-                    request = data_handler.format_username(target)
-                    response = client.send_message(request)
-                    if response == "None":
-                        print("User " + target + " does not exist.")
+                    if target == CURRENT_USER.name:
+                        print("This feature is not available yet.")
                     else:
-                        print("Sending request to start conversation with " + target + "...")
-                        request = data_handler.format_req(CURRENT_USER.name, target, CURRENT_USER.publickey())
+                        request = data_handler.format_username(target)
                         response = client.send_message(request)
-                        if response == "Success":
-                            self.app.log.info("Request sent. Please wait for the other user to accept.")
+                        if response == "None":
+                            print("User " + target + " does not exist.")
                         else:
-                            print("Something went wrong. Please try again later.")
+                            print("Sending request to start conversation with " + target + "...")
+                            request = data_handler.format_req(CURRENT_USER.name, target, CURRENT_USER.publickey())
+                            response = client.send_message(request)
+                            if response == "Success":
+                                self.app.log.info("Request sent. Please wait for the other user to accept.")
+                            else:
+                                print("Something went wrong. Please try again later.")
                 else:
                     self.app.log.error("Invalid username or invalid argument.")
         else:
