@@ -110,7 +110,6 @@ class SelectorServer:
                     # print(handled_data)
 
                     if json_data['type'] == 9:      # Enter conversation
-                        # TODO: fetch last 10 messages when enter conv
                         # Create room if room if 1st time enter conversation
                         # Otherwise just get room data from existed room
 
@@ -146,10 +145,9 @@ class SelectorServer:
                 # Check for inactive connection in room and remove them
                 for data in ROOMS_INFO:
                     for k, v in data.copy().items():
-                        if v != data['room'] and v not in CONNECTION_LIST:
+                        if v != data['room'] and v not in CONNECTION_LIST and len(data) > 3:
                             del data[k]
-                    if len(data) > 2:
-                        broadcast_data(conn, "The other user left the chat room.".encode(), data)
+                            broadcast_data(conn, "The other user left the chat room.".encode(), data)
 
                 # print(ROOMS_INFO)
                 self.close_connection(conn)
@@ -159,10 +157,9 @@ class SelectorServer:
 
             for data in ROOMS_INFO:
                 for k, v in data.copy().items():
-                    if v != data['room'] and v not in CONNECTION_LIST:
+                    if v != data['room'] and v not in CONNECTION_LIST and len(data) > 3:
                         del data[k]
-                if len(data) > 2:
-                    broadcast_data(conn, "The other user left the chat room.".encode(), data)
+                        broadcast_data(conn, "The other user left the chat room.".encode(), data)
 
             self.close_connection(conn)
 

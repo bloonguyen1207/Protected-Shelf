@@ -8,7 +8,7 @@ def connect_to_db():
     Change db here
     """
 
-    conn = psycopg2.connect("host='localhost' dbname='shelf' user='postgres' password='postgres'")
+    conn = psycopg2.connect("host='localhost' dbname='shelf' user='bloo' password='Loading...'")
     return conn
 
 
@@ -190,6 +190,8 @@ def authenticate_req(data):
         info = [data['req_id']]
         cur.execute(query, info)
         db_data = cur.fetchone()
+        if db_data is None:
+            return False
         receiver_id = db_data[0]
         status = db_data[1]
         if receiver_id is None or status != 0:

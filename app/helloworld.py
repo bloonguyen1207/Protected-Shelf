@@ -147,7 +147,6 @@ class BaseController(CementBaseController):
                     user.gen_key()
                     user.set_current_user()
                     self.app.log.info("Logged in successfully as " + user.name)
-                    CURRENT_USER = user
 
                 else:   # Wrong password
                     self.app.log.error("Username or password is incorrect. Please try again.")
@@ -167,8 +166,6 @@ class BaseController(CementBaseController):
             f.close()
         except FileNotFoundError:
             pass
-        
-        CURRENT_USER = None
         self.app.log.info("Logged out.")
 
     @expose(help="See the current user")
