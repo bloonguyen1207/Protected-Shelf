@@ -161,9 +161,13 @@ class BaseController(CementBaseController):
         """Remove data from local current user file"""
 
         self.app.log.info("Inside BaseController.logout()")
-        f = open("appdata/.current_user", "w")
-        f.write("")
-        f.close()
+        try:
+            f = open("appdata/.current_user", "w")
+            f.write("")
+            f.close()
+        except FileNotFoundError:
+            pass
+        
         CURRENT_USER = None
         self.app.log.info("Logged out.")
 
@@ -291,13 +295,14 @@ class BaseController(CementBaseController):
             print("usage: 'shelf request -r [request id] -a [answer(y/n)]'")
         else:
             client_res = self.app.pargs.answer
-            if client_res.lower().strip() in ANSWERS:
+            req = self.app.pargs.request
+            if client_res.lower().strip() in ANSWERS and req.isdigit():
                 if CURRENT_USER is not None:
                     client = ClientSocket()
                     client.open_connection(HOST, PORT)
 
                     request = data_handler.format_answer(CURRENT_USER,
-                                                         self.app.pargs.request,
+                                                         req,
                                                          client_res.lower())
                     response = client.send_message(request)
                     if response == "True" and client_res.lower() == 'y' or client_res.lower() == 'yes':
@@ -312,7 +317,7 @@ class BaseController(CementBaseController):
                     self.app.log.error("You have not logged in yet.")
                     print("Type 'shelf login' to login.")
             else:
-                self.app.log.error("Invalid answer.")
+                self.app.log.error("Invalid arguments.")
 
     @expose(help="Fetch available conversations")
     def my_conv(self):
