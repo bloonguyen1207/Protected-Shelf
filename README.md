@@ -14,8 +14,10 @@ This project is called **Protected Shelf**. It is an end-to-end encryption termi
 ---
 
 ## Setup ##
-- Go to project's folder
-- Run ```python3 setup.py```
+- Open your terminal and go to project's folder.
+- Run ```alias shelf='python3 -m app.helloworld'```. Now you will be able to call the client app using the keyword **shelf**. 
+- Run ```python3 setup.py```.
+
 ### Server ###
 - Open Postgres and create a database name ```shelf```
 - Open and run ```CREATE_TABLE.sql``` inside your database
@@ -29,8 +31,6 @@ This project is called **Protected Shelf**. It is an end-to-end encryption termi
 ---
 
 ## Getting started ##
-
-**Note**: From here on, the word `shelf` is short of `python3 -m app.helloworld`
 
 - After finish the setup, you can now run the client app using this command `shelf`
 
