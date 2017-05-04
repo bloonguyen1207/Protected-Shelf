@@ -371,7 +371,7 @@ class BaseController(CementBaseController):
                                 f_key = User.load_key(conv_data[k])
 
                         print("Connected. You can now start sending messages")
-                        print("Type 'exit.' or press 'Ctrl + C' to disconnect.")
+                        print("Press 'Ctrl + C' to disconnect.")
 
                         sys.stdout.write('>> ')
                         sys.stdout.flush()

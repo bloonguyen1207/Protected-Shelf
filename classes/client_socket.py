@@ -83,7 +83,7 @@ class ClientSocket:
                         # Split actual data with username - done
                         raw_data = data.decode().split(' ')
                         f_name = raw_data[0]
-                        raw_message = raw_data[1]
+                        raw_message = raw_data[-1]
 
                         # Encrypted message always have the length of 512
                         # None of the server announcement have same length
@@ -101,7 +101,7 @@ class ClientSocket:
                 else:
                     raw_msg = sys.stdin.readline()
 
-                    if raw_msg != "exit.\n":
+                    if raw_msg != "\n":
 
                         # Encrypt the message with other user public key
                         # convert it to a string
@@ -109,13 +109,8 @@ class ClientSocket:
                         processed_msg = binascii.hexlify(msg).decode()
                         req = data_handler.format_sent_message(user.name, processed_msg, room)
                         self.send_message(req)
-                        self.prompt()
-                    else:
-                        get_out = True
-                        break
 
-            if get_out:
-                break
+                    self.prompt()
 
     @staticmethod
     def prompt():

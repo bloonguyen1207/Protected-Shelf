@@ -8,7 +8,7 @@ def connect_to_db():
     Change db here
     """
 
-    conn = psycopg2.connect("host='localhost' dbname='shelf' user='bloo' password='Loading...'")
+    conn = psycopg2.connect("host='localhost' dbname='shelf' user='postgres' password='postgres'")
     return conn
 
 
