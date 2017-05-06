@@ -54,4 +54,7 @@ This project is called **Protected Shelf**. It is an end-to-end encryption termi
 - See more commands using the help command above.
 
 ---
+**Note:** The message history function is not available yet due to server's lack of bandwidth. Codes related to this part are commented out.
+
+--- 
 Feel free to explore the project but don't be surprised if you encounter a bug. I did try my best to fix all the bug but after all, nothing is bug free in this world, right? ┐(￣ヮ￣)┌

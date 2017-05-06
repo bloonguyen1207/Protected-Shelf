@@ -371,7 +371,6 @@ class BaseController(CementBaseController):
                         self.app.log.error("Something went wrong. Make sure you entered the correct conversation id.")
                         print("Type 'shelf my-conv' to see available conversations")
                     else:
-                        print(response)
                         f_key = None
                         conv_data = data_handler.parse_json(response.replace("'", '"'))
                         for k in conv_data.keys():

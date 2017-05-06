@@ -332,7 +332,6 @@ def enter_conv(data):
     #
     #     except psycopg2.ProgrammingError:
     #         return "Internal server error."
-    print({"room": cid, name1+"_key": key1, name2+"_key": key2})
     return {"room": cid, name1+"_key": key1, name2+"_key": key2}
 
 
