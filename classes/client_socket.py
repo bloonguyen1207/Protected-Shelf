@@ -64,7 +64,6 @@ class ClientSocket:
         """
 
         while 1:
-            get_out = False
             socket_list = [sys.stdin, self.sock]
             # Get the list sockets which are readable
             read_sockets, write_sockets, error_sockets = select.select(socket_list, [], [])

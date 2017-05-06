@@ -12,12 +12,17 @@ import getpass
 import re
 import sys
 
-VERSION = "0.0.1"
+with open('app/config.json') as config_file:
+    CONFIG = data_handler.parse_json(config_file.read())
 
-BANNER = """Protected Shelf v%s""" % VERSION
 
-HOST = "localhost"
-PORT = 2222
+# VERSION = "0.0.1"
+
+BANNER = """Protected Shelf v%s""" % CONFIG["version"]
+
+
+HOST = CONFIG["host"]
+PORT = CONFIG["port"]
 
 COLORS = {
     'DEBUG': 'cyan',

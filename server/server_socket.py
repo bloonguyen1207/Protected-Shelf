@@ -18,8 +18,11 @@ import socket
 import time
 from server import data_handler
 
-HOST = 'localhost'
-PORT = 2222
+with open('server/config.json') as config_file:
+    CONFIG = data_handler.parse_json(config_file.read())
+
+HOST = CONFIG["host"]
+PORT = CONFIG["port"]
 
 logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(message)s')
 
@@ -206,6 +209,8 @@ def broadcast_data(client, message, room):
 
 if __name__ == '__main__':
     logging.info('Starting...')
+    logging.info('Setting up server...')
+    # get database info
     logging.info('Press Ctrl + C to disconnect the server.')
     try:
         server = SelectorServer(host=HOST, port=PORT)

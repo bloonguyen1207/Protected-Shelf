@@ -8,7 +8,7 @@ This project is called **Protected Shelf**. It is an end-to-end encryption termi
 ---
 
 ## Requirements ##
-- Linux OS
+
 - Python3 with pip installed
 - Postgres with pgAdmin
 ---
@@ -19,14 +19,15 @@ This project is called **Protected Shelf**. It is an end-to-end encryption termi
 - Run ```python3 setup.py```.
 
 ### Server ###
-- Open Postgres and create a database name ```shelf```
+- Create a new database
 - Open and run ```CREATE_TABLE.sql``` inside your database
-- Go to ```data_io.py``` and replace your **dbname, username and password** into the first function
+- Go to ```data_io.py``` and replace your **dbname, username and password** into the ```connect_to_db()``` function
 - Start the server: ```python3 -m server.server_socket```
 
 ### Can this thing run on LAN? ###
 - Yes, yes it can. 
-- To run on LAN, you just need to replace the ```HOST = 'localhost'``` variable in ```server/server_socket.py``` and ```app/helloworld.py``` with ```HOST = '[your ip]'``` 
+- To run on LAN, you just need to re-config the ```host``` in ```server/config.json``` and ```app/config.json``` from its default setting (localhost) to **your ip**. Super simple, right? ᕕ( ᐛ )ᕗ
+- You don't know how to get you IP address? (눈_눈) There are things that must be learnt by yourself. Fight on!!! ( •̀ᄇ• ́)ﻭ✧
 
 ---
 
@@ -51,3 +52,6 @@ This project is called **Protected Shelf**. It is an end-to-end encryption termi
 - To enter a conversation, use `shelf enter-conv -c [conversation id]`
 
 - See more commands using the help command above.
+
+---
+Feel free to explore the project but don't be surprised if you encounter a bug. I did try my best to fix all the bug but after all, nothing is bug free in this world, right? ┐(￣ヮ￣)┌
