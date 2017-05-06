@@ -16,8 +16,6 @@ with open('app/config.json') as config_file:
     CONFIG = data_handler.parse_json(config_file.read())
 
 
-# VERSION = "0.0.1"
-
 BANNER = """Protected Shelf v%s""" % CONFIG["version"]
 
 
@@ -68,6 +66,9 @@ class BaseController(CementBaseController):
 
             (['-c', '--conv'],
              dict(action='store', metavar='id', help='specify conversation id in command'))
+
+            # (['-f', '--fetch'],
+            #  dict(action='store', metavar='msgnum', help='fetch previous messages'))
             ]
 
     @expose(hide=True)
@@ -361,6 +362,7 @@ class BaseController(CementBaseController):
                 client = ClientSocket()
                 client.open_connection(HOST, PORT)
                 conv_id = self.app.pargs.conv
+                # fetch = 0 if self.app.pargs.fetch is None else self.app.pargs.fetch
                 if conv_id.isdigit():
                     request = data_handler.format_enter_conv(CURRENT_USER,
                                                              self.app.pargs.conv)
@@ -369,10 +371,11 @@ class BaseController(CementBaseController):
                         self.app.log.error("Something went wrong. Make sure you entered the correct conversation id.")
                         print("Type 'shelf my-conv' to see available conversations")
                     else:
+                        print(response)
                         f_key = None
                         conv_data = data_handler.parse_json(response.replace("'", '"'))
                         for k in conv_data.keys():
-                            if k != "room" and k != CURRENT_USER.name + "_key":
+                            if k != "room" and k != "messages" and k != CURRENT_USER.name + "_key":
                                 f_key = User.load_key(conv_data[k])
 
                         print("Connected. You can now start sending messages")

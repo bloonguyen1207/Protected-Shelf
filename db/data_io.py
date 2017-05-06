@@ -314,6 +314,25 @@ def enter_conv(data):
     name1 = fetch_name_from_id(tid1)[0]
     name2 = fetch_name_from_id(tid2)[0]
 
+    # uid = fetch_id_from_name(data['username'])
+
+    # Fetch message history - not available yet
+    # messages = []
+    # if data['fetch'] != 0:
+    #     query = "SELECT msg_content, receive FROM message WHERE t_id = %s " \
+    #             "AND c_id = %s ORDER BY stamp_of_time DESC LIMIT %s"
+    #     info = [uid[0], data['cid'], data['fetch']]
+    #     try:
+    #         cur.execute(query, info)
+    #         for tup in cur.fetchall():
+    #             if tup[1]:
+    #                 messages.append(' '.join([name1 if name1 != data['username'] else name2, tup[0]]))
+    #             else:
+    #                 messages.append(' '.join([data['username'], tup[0]]))
+    #
+    #     except psycopg2.ProgrammingError:
+    #         return "Internal server error."
+    print({"room": cid, name1+"_key": key1, name2+"_key": key2})
     return {"room": cid, name1+"_key": key1, name2+"_key": key2}
 
 

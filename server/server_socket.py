@@ -214,7 +214,6 @@ def broadcast_data(client, message, room):
 if __name__ == '__main__':
     logging.info('Starting...')
     logging.info('Setting up server...')
-    # get database info
     logging.info('Press Ctrl + C to disconnect the server.')
     try:
         server = SelectorServer(host=HOST, port=PORT)
