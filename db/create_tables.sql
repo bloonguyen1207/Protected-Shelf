@@ -32,6 +32,15 @@ CREATE TABLE Message_Received (
 	time_received TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'utc')
 );
 
+CREATE TABLE Message(
+	m_id SERIAL PRIMARY KEY,
+	c_id SERIAL REFERENCES Conversation(c_id),
+	t_id SERIAL REFERENCES Trader(t_id),
+	msg_content VARCHAR(512) NOT NULL,
+	stamp_of_time TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'utc'),
+	receive BOOLEAN DEFAULT False
+);
+
 CREATE TABLE Request (
 	r_id SERIAL PRIMARY KEY,
 	sender_id SERIAL REFERENCES Trader(t_id),

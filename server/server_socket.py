@@ -137,22 +137,26 @@ class SelectorServer:
                         for data in ROOMS_INFO:
                             if json_data['room'] == data['room']:
                                 room = data
-                        broadcast_data(conn, ("[" + json_data['username'] + "]: " + json_data['content']).encode(), room)
+                        broadcast_data(conn, ("[" + json_data['username'] + "]: " + json_data['recv_content']).encode(), room)
 
                 except socket.error as e:
                     print(e)    # Or if don't want user to see just print 'Internal server error'
             else:
+                count = 0
                 if conn in CONNECTION_LIST:
                     CONNECTION_LIST.remove(conn)
 
                 # Check for inactive connection in room and remove them
                 for data in ROOMS_INFO:
                     for k, v in data.copy().items():
-                        if v != data['room'] and v not in CONNECTION_LIST and len(data) > 3:
+                        if v != data['room'] and v not in CONNECTION_LIST:
                             del data[k]
-                            broadcast_data(conn, "The other user left the chat room.".encode(), data)
+                        if len(data) > 2:
+                            if count == 0:
+                                broadcast_data(conn, "The other user left the chat room.".encode(), data)
+                            count += 1
 
-                # print(ROOMS_INFO)
+                print(ROOMS_INFO)
                 self.close_connection(conn)
         except ConnectionResetError:
             if conn in CONNECTION_LIST:

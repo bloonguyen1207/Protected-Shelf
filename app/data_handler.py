@@ -60,9 +60,10 @@ def format_enter_conv(user, cid):
            user.publickey().replace('\n', '\\\\n') + '", "cid":' + str(cid) + '}'
 
 
-def format_sent_message(username, message, room):
+def format_sent_message(username, sent_message, recv_message, room):
     return '{"type": ' + str(ACTION_DICT["send"]) + \
-           ', "username": "' + username + '", "content":"' + \
-           message.strip() + '", "room": ' + str(room) + '}'
+           ', "username": "' + username + '", "sent_content":"' + \
+           sent_message.strip() + '", "recv_content":"' + \
+           recv_message.strip() + '", "room": ' + str(room) + '}'
 
 

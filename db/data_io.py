@@ -8,7 +8,7 @@ def connect_to_db():
     Change db here
     """
 
-    conn = psycopg2.connect("host='localhost' dbname='shelf' user='postgres' password='postgres'")
+    conn = psycopg2.connect("host='localhost' dbname='shelf' user='bloo' password='Loading...'")
     return conn
 
 
@@ -326,23 +326,20 @@ def save_messages(data):
 
     conn = connect_to_db()
     cur = conn.cursor()
-    rid = None
     uid = fetch_id_from_name(data['username'])
     try:
         query = "SELECT t_id1, t_id2 FROM Conversation WHERE c_id=%s"
         info = [data['room']]
         cur.execute(query, info)
         r = cur.fetchone()
-        for i in r:
-            if i != uid:
-                rid = i
-        new_sent_msg = "INSERT INTO message_sent(c_id, t_id, msg_content) VALUES (%s, %s, E%s)"
-        info = [data['room'], uid, data['content']]
+        rid = r[0] if r[0] != uid[0] else r[1]
+        new_sent_msg = "INSERT INTO message(c_id, t_id, msg_content) VALUES (%s, %s, E%s)"
+        info = [data['room'], uid, data['sent_content']]
         cur.execute(new_sent_msg, info)
         conn.commit()
 
-        new_recv_msg = "INSERT INTO message_received(c_id, t_id, msg_content) VALUES (%s, %s, E%s)"
-        info = [data['room'], rid, data['content']]
+        new_recv_msg = "INSERT INTO message(c_id, t_id, msg_content, receive) VALUES (%s, %s, E%s, True)"
+        info = [data['room'], rid, data['recv_content']]
         cur.execute(new_recv_msg, info)
         conn.commit()
         conn.close()

@@ -79,7 +79,7 @@ class ClientSocket:
                         # Load user private key to decrypt message from other user
                         my_key = user.load_key(user.my_key())
 
-                        # Split actual data with username - done
+                        # Split actual data with username
                         raw_data = data.decode().split(' ')
                         f_name = raw_data[0]
                         raw_message = raw_data[-1]
@@ -101,12 +101,16 @@ class ClientSocket:
                     raw_msg = sys.stdin.readline()
 
                     if raw_msg != "\n":
-
+                        # Also need sender key in order to fetch later
+                        my_pkey = user.load_key(user.publickey())
+                        sent_msg = my_pkey.encrypt(raw_msg.encode(), 32)[0]
+                        processed_sent_msg = binascii.hexlify(sent_msg).decode()
                         # Encrypt the message with other user public key
                         # convert it to a string
-                        msg = key.encrypt(raw_msg.encode(), 32)[0]
-                        processed_msg = binascii.hexlify(msg).decode()
-                        req = data_handler.format_sent_message(user.name, processed_msg, room)
+                        recv_msg = key.encrypt(raw_msg.encode(), 32)[0]
+                        processed_recv_msg = binascii.hexlify(recv_msg).decode()
+
+                        req = data_handler.format_sent_message(user.name, processed_sent_msg, processed_recv_msg, room)
                         self.send_message(req)
 
                     self.prompt()
