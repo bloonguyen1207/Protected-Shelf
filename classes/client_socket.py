@@ -60,7 +60,7 @@ class ClientSocket:
         Get user in a loop to chat with each other
         Keep exchange data
         Open -> send & receive
-        Stop when user types 'exit.' or press 'Ctrl + C'
+        Stop when user presses 'Ctrl + C'
         """
 
         while 1:
