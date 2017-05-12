@@ -67,6 +67,13 @@ class ClientSocket:
             socket_list = [sys.stdin, self.sock]
             # Get the list sockets which are readable
             read_sockets, write_sockets, error_sockets = select.select(socket_list, [], [])
+            
+            # Load user private key to decrypt message from other user
+            my_key = user.load_key(user.my_key())
+            
+            # Also need sender key in order to fetch later
+            my_pkey = user.load_key(user.publickey())
+                        
             for sock in read_sockets:
                 # Incoming message from remote server
                 if sock == self.sock:
@@ -76,8 +83,7 @@ class ClientSocket:
                         print('\nDisconnected from chat server.')
                         sys.exit()
                     else:
-                        # Load user private key to decrypt message from other user
-                        my_key = user.load_key(user.my_key())
+                        # Private key moved up
 
                         # Split actual data with username
                         raw_data = data.decode().split(' ')
@@ -101,8 +107,7 @@ class ClientSocket:
                     raw_msg = sys.stdin.readline()
 
                     if raw_msg != "\n":
-                        # Also need sender key in order to fetch later
-                        my_pkey = user.load_key(user.publickey())
+                        # Load public key moved up
                         sent_msg = my_pkey.encrypt(raw_msg.encode(), 32)[0]
                         processed_sent_msg = binascii.hexlify(sent_msg).decode()
                         # Encrypt the message with other user public key
